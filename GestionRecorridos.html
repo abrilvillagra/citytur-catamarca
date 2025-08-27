@@ -9,12 +9,12 @@
         <h1>Gestion de Recorridos</h1>
 
         <fieldset>
-            <button type="button">Agregar recorrido</button>
-        </fieldset>
+            <h3>Formulario para agregar recorrido</h3>
+        
 
         <form action="#">
             <label for="identificador">ID del recorrido</label>
-            <input type="number" id="identificador" name="identificador">
+            <input type="number" id="identificador" name="identificador" min="1" step="1" required>
             
             <br><br>
             <label for="nombre">Nombre del recorrido</label>
@@ -31,11 +31,11 @@
 
             <br><br>
             <label for="precio">Precio del recorrido</label>
-            <input type="number" id="precio" name="precio">
+            <input type="number" id="precio" name="precio" min="1">
 
             <br><br>
             <label for="cupos">Cantidad de cupos</label>
-            <input type="number" id="cupos" name="cupos">
+            <input type="number" id="cupos" name="cupos" min="1">
             
             <br><br>
             <label for="estado">Estado del recorrido</label>
@@ -43,23 +43,34 @@
                 <option value="activo">activo</option>
                 <option value="inactivo">inactivo</option>
             </select>
+            
+            <br><br>
+            <input type="submit" value="Agregar">
+            <input type="reset" value="cancelar">
+
         </form>
+
+        </fieldset>
 
         <br><br>
         <fieldset>
-            <button type="button">Eliminar recorrido</button>
-        </fieldset>
+        <h3>Eliminar Recorrido</h3>
+        
         <label for="id_eliminar">Ingrese ID del recorrido</label>
         <input type="number" id="id_eliminar"> 
         <button type="button">Buscar</button>
 
+        </fieldset>
+
         <br><br>
         <fieldset>
-            <button type="button">Editar recorrido</button>
-        </fieldset>
+        <h3>Editar Recorrido</h3>
+        
         <label for="id_editar">Ingrese ID del recorrido</label>
         <input type="number" id="id_editar">
         <button type="button">Buscar</button>
+
+        </fieldset>
 
     </body>
 </html>
