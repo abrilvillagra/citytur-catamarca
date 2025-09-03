@@ -1,0 +1,18 @@
+body{
+    font-family: Arial, sans-serif;
+    background-color: #fff8f0;
+}
+
+form{
+    background-color: #ffffff;
+    border: 2px solid #ff9800;
+    border-radius: 10px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/*estilo de los disparadores*/
+.btn-color{
+    background-color: #e65100;
+    border: none;
+}
