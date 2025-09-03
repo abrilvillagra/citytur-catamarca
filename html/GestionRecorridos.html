@@ -32,7 +32,7 @@
             <section id="agregar_recorrido" class="mb-5">
                 <!--disparador para mostrar el panel oculto-->
                 <p class="d-inline-flex gap-1">
-                    <a class="btn btn-color" data-bs-toggle="collapse" href="#agregar" role="button" aria-expanded="false" aria-controls="agregar">
+                    <a class="btn btn-disparador" data-bs-toggle="collapse" href="#agregar" role="button" aria-expanded="false" aria-controls="agregar">
                         Agregar Recorrido
                     </a>
                     
@@ -62,8 +62,8 @@
                                 </div>
                             <div class="col-md-6">
                                 <p>Elejir paradas</p>
-                                <button type="button">Seleccionar paradas existentes</button>
-                                <button type="button">Añadir nueva parada</button> 
+                                <button type="button" class="btn btn-formulario">Buscar</button>
+                                <button type="button" class="btn btn-formulario">Añadir nueva parada</button> 
                             </div>
                         </div> 
 
@@ -81,16 +81,17 @@
                         <div class="row mb-5">
                             <div class="col-md-6">
                                 <label for="estado">Estado del recorrido</label>
-                                <select name="estado" id="estado">
+                                <select name="estado" id="estado" class="form-select" aria-label="Default select example">
                                     <option value="activo">activo</option>
                                     <option value="inactivo">inactivo</option>
                                 </select>
                             </div>
                         </div>
 
-
-                        <input type="submit" value="Agregar">
-                        <input type="reset" value="cancelar">
+                        <div class="btn_position">
+                            <input type="reset" value="Cancelar" class="btn btn-cancelar">
+                            <input type="submit" value="Aceptar" class="btn btn-formulario">
+                        </div>
 
                     </form>
                 </div>
@@ -99,7 +100,7 @@
             <section id="eliminar_recorrido" class="mb-5">
             
                 <p class="d-inline-flex gap-1">
-                    <a class="btn btn-color" data-bs-toggle="collapse" href="#eliminar" role="button" aria-expanded="false" aria-controls="eliminar">
+                    <a class="btn btn-disparador" data-bs-toggle="collapse" href="#eliminar" role="button" aria-expanded="false" aria-controls="eliminar">
                         Eliminar Recorrido
                     </a>
                     
@@ -111,7 +112,7 @@
                     
                     <label for="id_eliminar">Ingrese ID del recorrido</label>
                     <input type="number" id="id_eliminar"> 
-                    <button type="button">Buscar</button>
+                    <button type="button" class="btn btn-formulario">Buscar</button>
                     </form>
                     </div>
            
@@ -120,7 +121,7 @@
             <section id="editar_recorrido" class="mb-5">
 
                 <p class="d-inline-flex gap-1">
-                    <a class="btn btn-color" data-bs-toggle="collapse" href="#editar" role="button" aria-expanded="false" aria-controls="editar">
+                    <a class="btn btn-disparador" data-bs-toggle="collapse" href="#editar" role="button" aria-expanded="false" aria-controls="editar">
                         Editar Recorrido
                     </a>
                     
@@ -132,7 +133,7 @@
                     
                     <label for="id_editar">Ingrese ID del recorrido</label>
                     <input type="number" id="id_editar">
-                    <button type="button">Buscar</button>
+                    <button type="button" class="btn btn-formulario">Buscar</button>
                     </form>
                 </div>
             

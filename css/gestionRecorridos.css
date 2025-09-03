@@ -20,14 +20,44 @@ form{
     padding: 20px;
 }
 
-/*estilo de los disparadores*/
-.btn-color{
+div p{
+    color: #e65100;;
+}
+
+label{
+    display: block;
+    color: #e65100;
+}
+
+/*BOTONES---------*/
+.btn-disparador{
     background-color: #e65100;
     border: none;
 }
 
-.btn-color:hover{
+.btn-disparador:hover{
     background-color: #bf360c;;
+}
+
+.btn-formulario {
+    background-color: #e65100;
+    border: none;
+    color: white;
+}
+.btn-formulario:hover {
+    background-color: #bf360c;
+}
+.btn-cancelar {
+    background-color: #b71c1c;
+    border: none;
+    color: white;
+}
+.btn-cancelar:hover {
+    background-color: #7f0000;
+}
+
+.btn_position{
+    text-align: center;
 }
 
 .nav-link {
