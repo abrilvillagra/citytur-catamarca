@@ -1,3 +1,12 @@
+
+/* Banner */
+.banner-img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;   /* recorta y mantiene proporción */
+    display: block;
+}
+
 body{
     font-family: Arial, sans-serif;
     background-color: #fff8f0;
@@ -19,4 +28,29 @@ form{
 
 .btn-color:hover{
     background-color: #bf360c;;
+}
+
+.nav-link {
+    color: rgb(26, 68, 237) !important;
+    font-weight: 500;
+}
+.nav-link:hover {
+    color: #f6ad41 !important;
+}
+.nav-link.active {
+    font-weight: bold;
+    border-bottom: 2px solid #73e4f8;
+}
+
+header {
+    background-color: #e65100; /* naranja oscuro */
+    color: black;
+    border-bottom: 4px solid #bf360c;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+footer {
+    background-color: #e65100;
+    color: white;
 }

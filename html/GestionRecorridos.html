@@ -10,14 +10,26 @@
     </head>
 
     <body>
-        <div class="container">
-            <h1 class="mb-5">Gestion de Recorridos</h1>
+        <!--contenedor de la cabezera-->
+        <div class="mb-4">
+            
+            <header>
+                <img src="../img/2148232402.jpg" class="banner-img"/>
+                <h1 class="text-center mt-3">Gestionar Recorridos</h1>
+                <nav>
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item"><a class="nav-link" href="Pagina1.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="GestionRecorridos.html">Recorridos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Pagina3.html">Reserva</a></li>
+                    </ul>
+                </nav>
+            </header>
         </div>
-        
-        <section  id="agregar_recorrido">
-            <!--contenedor del formulario para agregar recorridos-->
-            <div class="container mb-4">
 
+            <!--contenedor del cuerpo de la pagina-->
+        <div class="container mb-4">
+
+            <section id="agregar_recorrido" class="mb-5">
                 <!--disparador para mostrar el panel oculto-->
                 <p class="d-inline-flex gap-1">
                     <a class="btn btn-color" data-bs-toggle="collapse" href="#agregar" role="button" aria-expanded="false" aria-controls="agregar">
@@ -28,66 +40,64 @@
 
                 <!--panel colapsable (dentro del div va todo lo oculto)-->
                 <div class="collapse" id="agregar">
-                <form action="#" method="post">
+                    <form action="#" method="post">
 
-                    <h3 class="mb-4">Formulario para agregar recorrido</h3>
+                        <h3 class="mb-4">Formulario para agregar recorrido</h3>
 
-                    <div class="row mb-5">
-                        <div class="col-md-6">
-                            <label for="identificador">ID del recorrido</label>
-                            <input type="number" id="identificador" name="identificador" min="1" step="1" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="nombre">Nombre del recorrido</label>
-                            <input type="text" id="nombre" name="nombre">
-                        </div>
-                    </div>
-
-                    <div class="row mb-5">
-                        <div class="col-md-6">
-                                <label for="descripcion">Descripcion del recorrido</label>
-                                <input type="text" id="descripcion" name="descripcion">
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <label for="identificador">ID del recorrido</label>
+                                <input type="number" id="identificador" name="identificador" min="1" step="1" required>
                             </div>
-                        <div class="col-md-6">
-                            <p>Elejir paradas</p>
-                            <button type="button">Seleccionar paradas existentes</button>
-                            <button type="button">Añadir nueva parada</button> 
+                            <div class="col-md-6">
+                                <label for="nombre">Nombre del recorrido</label>
+                                <input type="text" id="nombre" name="nombre">
+                            </div>
                         </div>
-                    </div> 
 
-                    <div class="row mb-5">
-                        <div class="col-md-6">
-                            <label for="precio">Precio del recorrido</label>
-                            <input type="number" id="precio" name="precio" min="1">
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                    <label for="descripcion">Descripcion del recorrido</label>
+                                    <input type="text" id="descripcion" name="descripcion">
+                                </div>
+                            <div class="col-md-6">
+                                <p>Elejir paradas</p>
+                                <button type="button">Seleccionar paradas existentes</button>
+                                <button type="button">Añadir nueva parada</button> 
+                            </div>
+                        </div> 
+
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <label for="precio">Precio del recorrido</label>
+                                <input type="number" id="precio" name="precio" min="1">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cupos">Cantidad de cupos</label>
+                                <input type="number" id="cupos" name="cupos" min="1">
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="cupos">Cantidad de cupos</label>
-                            <input type="number" id="cupos" name="cupos" min="1">
+
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <label for="estado">Estado del recorrido</label>
+                                <select name="estado" id="estado">
+                                    <option value="activo">activo</option>
+                                    <option value="inactivo">inactivo</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="row mb-5">
-                        <div class="col-md-6">
-                            <label for="estado">Estado del recorrido</label>
-                            <select name="estado" id="estado">
-                                <option value="activo">activo</option>
-                                <option value="inactivo">inactivo</option>
-                            </select>
-                        </div>
-                    </div>
 
 
-                    <input type="submit" value="Agregar">
-                    <input type="reset" value="cancelar">
+                        <input type="submit" value="Agregar">
+                        <input type="reset" value="cancelar">
 
-                </form>
+                    </form>
                 </div>
+            </section>
 
-            </div>
-        </section>
-
-        <section id="eliminar_recorrido">
-            <div class="container mb-4">
+            <section id="eliminar_recorrido" class="mb-5">
+            
                 <p class="d-inline-flex gap-1">
                     <a class="btn btn-color" data-bs-toggle="collapse" href="#eliminar" role="button" aria-expanded="false" aria-controls="eliminar">
                         Eliminar Recorrido
@@ -103,13 +113,11 @@
                     <input type="number" id="id_eliminar"> 
                     <button type="button">Buscar</button>
                     </form>
-                </div>
-            </div>
-        </section>
-        
+                    </div>
+           
+            </section>
 
-        <section id="editar_recorrido">
-            <div class="container mb-5">
+            <section id="editar_recorrido" class="mb-5">
 
                 <p class="d-inline-flex gap-1">
                     <a class="btn btn-color" data-bs-toggle="collapse" href="#editar" role="button" aria-expanded="false" aria-controls="editar">
@@ -127,8 +135,15 @@
                     <button type="button">Buscar</button>
                     </form>
                 </div>
-            </div>
-        </section>
+            
+            </section>
+
+
+        </div>
+        
+        <footer class="text-center mt-4 p-3 ">
+            <p>© 2025 CityTur Catamarca</p>
+        </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
