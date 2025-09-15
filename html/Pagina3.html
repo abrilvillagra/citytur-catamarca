@@ -25,35 +25,47 @@
             <h2>Reservacion</h2>
         </article>
     </section>
-    <form action="Pagina3.html" method="post">
-        <label for="Nombre"> Nombre Completo</label>
-        <input id="Nombre" name="Nombre" placeholder="Apellido y Nombre"/>
-        <br><br>
 
-        <label for="DNI"> DNI</label>
-        <input type="text" id="DNI" name="DNI" placeholder="DNI" minlength="7" maxlength="8"/>
-        <br><br>
+    <div class="container">
+        <form action="Pagina3.html" method="post" onsubmit="return validarFormulario()" >
 
-        <label for="correo_electronico">Correo electrónico</label>
-        <input type="email" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico" />
-        <br><br>
+            <label for="recorrido">Elija el recorrido:</label>
+            <select id="recorrido" name="recorrido">
+                <option value="">Seleccione...</option>
+                <option value="Catedral y centro histórico">Catedral y centro histórico</option>
+                <option value="Dique El Jumeal">Dique El Jumeal</option>
+                <option value="Gruta de la Virgen del Valle">Gruta de la Virgen del Valle</option>
+            </select>
+            <br><br>
 
-        <label for="nacimiento">Fecha de Nacimiento:</label>
-            <input type="date" id="nacimiento" name="nacimiento"/>
-        <br><br>
+        <!-- NUEVO: cantidad de pasajeros -->
+            <label for="cantidad">Cantidad de pasajeros:</label>
+            <select id="cantidad" name="cantidad" onchange="generarPasajeros()">
+                <option value="0">Seleccione...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <br><br>
 
-         <label for="telefono">Numero de telefono:</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3834657689" minlength="10" maxlength="13"/>
-        <br><br>
-     <div class="d-flex justify-content-between"></div>
-        <input type="reset" value="Cancelar" class="btn btn-danger">
-        <input type="submit" value="Aceptar" class="btn btn-success">
-     </div>
+            <!-- Contenedor dinámico -->
+            <div id="contenedorPasajeros"></div>
 
-    </form>
+    
+            <div class="d-flex justify-content-between">
+                <input type="reset" value="Cancelar" class="btn btn-danger">
+                <input type="submit" value="Aceptar" class="btn btn-success">
+            </div>
 
+        </form>
+    </div>
+    
     <footer class="text-center mt-4 p-3 ">
         <p>© 2025 CityTur Catamarca</p>
     </footer>
+
+    <script src="../js/validacion.js"></script>
+    
 </body>
 </html>
