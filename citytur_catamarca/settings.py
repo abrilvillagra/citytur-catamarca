@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,8 +83,12 @@ WSGI_APPLICATION = 'citytur_catamarca.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DJANGO_DB_NAME'),
+        'USER': config('DJANGO_DB_USER'),
+        'PASSWORD': config('DJANGO_DB_PASSWORD'),
+        'HOST': config('DJANGO_DB_HOST', default='localhost'),
+        'PORT': config('DJANGO_DB_PORT', default='5432'),
     }
 }
 
@@ -121,7 +127,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-AUTH_USER_MODEL = 'usuarios.Usuario' #defino mi usuario
+
 
 STATIC_URL = 'static/'
 
