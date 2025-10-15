@@ -1,5 +1,6 @@
-# entorno virtual
+# entorno virtual y variables
 venv/
+env/
 .env
 
 # Python
@@ -21,4 +22,5 @@ __pycache__/
 .idea/
 .vscode/
 
-
+#base local
+db.sqlite3
