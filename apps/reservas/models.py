@@ -40,8 +40,9 @@ class Recorrido(models.Model):
         return f'{self.nombre}, {self.estado}, {self.precio}'
 
 
-#defino nuestra propia tabla intermedia entre Recorrido y Parada para poder agregar campos
-#como orden y tiempo de espera
+'''defino nuestra propia tabla intermedia entre Recorrido y Parada para poder agregar campos
+como orden y tiempo de espera'''
+
 class RecorridoParada(models.Model):
     recorrido=models.ForeignKey(Recorrido,on_delete=models.CASCADE)
     parada=models.ForeignKey(Parada, on_delete=models.CASCADE)
@@ -73,6 +74,28 @@ class UnidadTransporte(models.Model):
         return  f'{self.patente}, {self.marca}, {self.estado}'
 
 
+class Reserva(models.Model):
+    fecha_creacion=models.DateTimeField(auto_now_add=True)
+    cantidad_personas=models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    recorrido=models.ManyToManyField(
+        Recorrido,
+        related_name='reservas')
+
+    class Meta:
+        ordering=['-fecha_creacion']
 
 
+    def __str__(self):
+        return f"Reserva del {self.fecha_creacion:%d/%m/%Y %H:%M} – {self.cantidad_personas} personas"
 
+
+class Itinerario(models.Model):
+    nombre=models.CharField(max_length=30)
+    observaciones=models.TextField()
+    recorridos=models.ManyToManyField(Recorrido, related_name='itinerarios')
+
+    class Meta:
+        ordering=['nombre']
+
+    def __str__(self):
+        return f'itinerario: {self.nombre}'
