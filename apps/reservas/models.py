@@ -40,8 +40,7 @@ class Recorrido(models.Model):
         return f'{self.nombre}, {self.estado}, {self.precio}'
 
 
-'''defino nuestra propia tabla intermedia entre Recorrido y Parada para poder agregar campos
-como orden y tiempo de espera'''
+
 
 class RecorridoParada(models.Model):
     recorrido=models.ForeignKey(Recorrido,on_delete=models.CASCADE)
