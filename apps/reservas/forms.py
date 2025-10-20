@@ -8,7 +8,7 @@ class RecorridoForm(forms.ModelForm):
             'class':'form-select',
             'id':'paradas'
         }),
-        required=True
+        required=False
     )
 
     class Meta:

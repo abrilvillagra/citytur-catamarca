@@ -83,21 +83,17 @@
 
                             </div>
                             <div class="col-md-6">
-                                <label for="cupos">Cantidad de cupos</label>
-                                <input type="number" id="cupos" name="cupos" min="1" pattern="[0-9]+"
-                                value="{{ form.cupos.value|default_if_none:'' }}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-5">
-
-                            <div class="col-md-6">
                                 <label for="estado">Estado del recorrido</label>
                                 <select name="estado" id="estado" class="form-select" aria-label="Default select example">
                                     <option value="True" {% if form.estado.value == True %}selected{% endif %}>activo</option>
                                     <option value="False" {% if form.estado.value == False %}selected{% endif %}>inactivo</option>
                                 </select>
                             </div>
+
+                        </div>
+
+                        <div class="row mb-5">
+
                             <div class="col-md-6">
                                     <label for="descripcion">Descripcion del recorrido</label>
                                     <textarea rows="3" cols="40" name="descripcion" id="descripcion">{{ form.descripcion.value }}</textarea>
@@ -111,11 +107,11 @@
                                 <select multiple name="paradas" id="paradas" class="form-select">
                                     {% for parada in form.paradas.field.queryset %}
                                         <option value="{{ parada.id }}"
-                                            {% if form.paradas.value %}
+                                            {% if form.paradas.value and parada.id in form.paradas.value %}
                                                 {% if parada.id in form.paradas.value %}
                                                     selected
                                                 {% endif %}
-                                            {% endif %}>
+                                                {% endif %}>
                                             {{ parada.nombre }}
                                         </option>
                                     {% endfor %}
