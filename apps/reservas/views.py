@@ -3,11 +3,12 @@ from .forms import RecorridoForm
 # Create your views here.
 
 def agregar_recorrido(request):
+
     if request.method=='POST':
         recorrido_form=RecorridoForm(request.POST)
         if recorrido_form.is_valid():
             recorrido_form.save()
-            return redirect('reservas:gestionar_recorridos')
+            return redirect('reservas:agregar_recorrido')
     else:
         recorrido_form=RecorridoForm()
 
