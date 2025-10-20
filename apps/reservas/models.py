@@ -28,29 +28,13 @@ class Recorrido(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(Decimal('0.00'))]
     )
-    paradas=models.ManyToManyField(
-        Parada,
-        through='RecorridoParada',
-        related_name='recorridos'
-
-    )
+    paradas=models.ManyToManyField(Parada,related_name="recorridos",blank=True)
 
 
     def __str__(self):
         return f'{self.nombre}, {self.estado}, {self.precio}'
 
 
-
-
-class RecorridoParada(models.Model):
-    recorrido=models.ForeignKey(Recorrido,on_delete=models.CASCADE)
-    parada=models.ForeignKey(Parada, on_delete=models.CASCADE)
-    orden=models.PositiveIntegerField()
-    tiempo_espera_minutos=models.PositiveIntegerField(null=True, blank=True)
-
-    class Meta:
-        unique_together = ('recorrido', 'orden')
-        ordering=['recorrido', 'orden']
 
 class UnidadTransporte(models.Model):
     patente=models.CharField(max_length=7, unique=True)
