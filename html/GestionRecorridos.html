@@ -45,42 +45,42 @@
                         <h3 class="mb-4">Formulario para agregar recorrido</h3>
 
                         <div class="row mb-5">
-                            <div class="col-md-6">
-                                <p class="obligatorio"></p>
-                                <label for="identificador">ID del recorrido</label>
-                                <input type="number" id="identificador" name="identificador" min="1" step="1" pattern="[0-9]+" required>
-                            </div>
+
                             <div class="col-md-6">
                                 <p class="obligatorio"></p>
                                 <label for="nombre">Nombre del recorrido</label>
                                 <input type="text" id="nombre" name="nombre" pattern="[A-Za-z]+" required>
                             </div>
-                        </div>
-
-                        <div class="row mb-5">
-                            <div class="col-md-6">
-                                    <label for="descripcion">Descripcion del recorrido</label>
-                                    <input type="text" id="descripcion" name="descripcion">
-                                </div>
-                            <div class="col-md-6">
-                                <p class="paradas">Elejir paradas</p>
-                                <button type="button" class="btn btn-formulario">Buscar</button>
-                                <button type="button" class="btn btn-formulario">Añadir nueva parada</button> 
-                            </div>
-                        </div> 
-
-                        <div class="row mb-5">
                             <div class="col-md-6">
                                 <label for="precio">Precio del recorrido</label>
                                 <input type="number" id="precio" name="precio" min="1">
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-5">
+
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="hora_salida">horario de salida</label>
+                                        <input type="time" id="hora_salida">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="hora_llegada">horario de llegada</label>
+                                        <input type="time" id="hora_llegada">
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="col-md-6">
                                 <label for="cupos">Cantidad de cupos</label>
                                 <input type="number" id="cupos" name="cupos" min="1" pattern="[0-9]+">
                             </div>
-                        </div>
+                        </div> 
 
                         <div class="row mb-5">
+
                             <div class="col-md-6">
                                 <label for="estado">Estado del recorrido</label>
                                 <select name="estado" id="estado" class="form-select" aria-label="Default select example">
@@ -88,7 +88,14 @@
                                     <option value="inactivo">inactivo</option>
                                 </select>
                             </div>
+                            <div class="col-md-6">
+                                    <label for="descripcion">Descripcion del recorrido</label>
+                                    <textarea rows="3" cols="40" name="descripcion" id="descripcion"></textarea>
+                            </div>
+
                         </div>
+
+
 
                         <div class="btn_position">
                             <input type="reset" value="Cancelar" class="btn btn-cancelar">
