@@ -58,6 +58,13 @@ class UnidadTransporte(models.Model):
 
 
 class Reserva(models.Model):
+    FORMA_PAGO = [
+        ('EFECTIVO', 'EFECTIVO'),
+        ('TRASNFERENCIA', 'TRASNFERENCIA'),
+        ('TARJETA', 'TARJETA'),
+        ('QR', 'QR'),
+    ]
+    forma_de_pago = models.CharField(max_length=20, choices=FORMA_PAGO, default="EFECTIVO")
     fecha_creacion=models.DateTimeField(auto_now_add=True)
     cantidad_personas=models.PositiveIntegerField(validators=[MinValueValidator(1)])
     recorrido=models.ManyToManyField(
