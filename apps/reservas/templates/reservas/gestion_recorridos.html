@@ -68,24 +68,19 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label for="hora_salida">horario de salida</label>
-                                        <input type="time" id="hora_salida" name="hora_salida"
-                                        value="{{ form.hora_salida.value|default_if_none:'' }}">
+                                        <label for="{{form.hora_salida.id_for_label}}">horario de salida</label>
+                                        {{form.hora_salida}}
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="hora_llegada">horario de llegada</label>
-                                        <input type="time" id="hora_llegada" name="hora_llegada"
-                                        value="{{ form.hora_llegada.value|default_if_none:'' }}">
+                                        <label for="{{form.hora_llegada.id_for_label}}">horario de llegada</label>
+                                        {{form.hora_llegada}}
                                     </div>
                                 </div>
 
                             </div>
                             <div class="col-md-6">
-                                <label for="estado">Estado del recorrido</label>
-                                <select name="estado" id="estado" class="form-select" aria-label="Default select example">
-                                    <option value="True" {% if form.estado.value == True %}selected{% endif %}>activo</option>
-                                    <option value="False" {% if form.estado.value == False %}selected{% endif %}>inactivo</option>
-                                </select>
+                                <label for="{{form.estado.id_for_label}}">Estado del recorrido</label>
+                                {{form.estado}}
                             </div>
 
                         </div>
@@ -93,27 +88,16 @@
                         <div class="row mb-5">
 
                             <div class="col-md-6">
-                                    <label for="descripcion">Descripcion del recorrido</label>
-                                    <textarea rows="3" cols="40" name="descripcion" id="descripcion">{{ form.descripcion.value }}</textarea>
+                                    <label for="{{form.descripcion.id_for_label}}">Descripcion del recorrido</label>
+                                     {{form.descripcion}}
                             </div>
 
                         </div>
 
                         <div class="row mb-5">
                             <div class="col-md-12">
-                                <label for="paradas">Paradas del recorrido</label>
-                                <select multiple name="paradas" id="paradas" class="form-select">
-                                    {% for parada in form.paradas.field.queryset %}
-                                        <option value="{{ parada.id }}"
-                                            {% if form.paradas.value and parada.id in form.paradas.value %}
-                                                {% if parada.id in form.paradas.value %}
-                                                    selected
-                                                {% endif %}
-                                                {% endif %}>
-                                            {{ parada.nombre }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
+                                <label for="{{form.paradas.id_for_label}}">Paradas del recorrido</label>
+                                {{form.paradas}}
                             </div>
                         </div>
 
