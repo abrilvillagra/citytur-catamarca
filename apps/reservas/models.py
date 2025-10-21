@@ -17,7 +17,7 @@ class Parada(models.Model):
 
 
 class Recorrido(models.Model):
-    nombre=models.CharField(max_length=50)
+    nombre=models.CharField(max_length=50, unique=True)
     descripcion=models.TextField()
     hora_salida=models.TimeField()
     hora_llegada=models.TimeField()
