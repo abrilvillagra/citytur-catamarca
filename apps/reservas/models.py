@@ -6,14 +6,23 @@ from django.db import models
 # Create your models here.
 
 class PuntoTuristico(models.Model):
+    CATEGORIA=[
+        ('NATURAL','Natural'),
+        ('CULTURAL', 'Cultural'),
+        ('GASTRONOMIA','Gastronimia'),
+        ('RELIGIOSO', 'Religiosa'),
+    ]
+
     nombre=models.CharField(max_length=50)
-    categoria=models.CharField()
-    decripcion=models.TextField()
-    ubicacion=models.CharField(max_length=50)
+    categoria=models.CharField(max_length=20, choices=CATEGORIA, default='CULTURAL')
+    descripcion=models.TextField(blank=True)
+    ubicacion=models.CharField(max_length=100)
     estado=models.BooleanField(default=True)
 
     class Meta:
         ordering=['nombre']
+        verbose_name = "Punto turístico"
+        verbose_name_plural = "Puntos turísticos"
 
     def __str__(self):
         return f'{self.nombre}, {self.estado}'
@@ -21,12 +30,12 @@ class PuntoTuristico(models.Model):
 
 class Recorrido(models.Model):
     nombre=models.CharField(max_length=50, unique=True)
-    descripcion=models.TextField()
+    descripcion=models.TextField(blank=True)
     hora_salida=models.TimeField()
     hora_llegada=models.TimeField()
     estado=models.BooleanField(default=True)
     fecha_creacion=models.DateTimeField(auto_now_add=True)
-    imagen=models.FileField(blank=True)
+    imagen=models.FileField(blank=True,  null=True)
     precio=models.DecimalField(
         max_digits=8,
         decimal_places=2,
