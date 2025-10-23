@@ -5,8 +5,11 @@ from django.db import models
 
 # Create your models here.
 
-class Parada(models.Model):
+class PuntoTuristico(models.Model):
     nombre=models.CharField(max_length=50)
+    categoria=models.CharField()
+    decripcion=models.TextField()
+    ubicacion=models.CharField(max_length=50)
     estado=models.BooleanField(default=True)
 
     class Meta:
@@ -23,12 +26,13 @@ class Recorrido(models.Model):
     hora_llegada=models.TimeField()
     estado=models.BooleanField(default=True)
     fecha_creacion=models.DateTimeField(auto_now_add=True)
+    imagen=models.FileField(blank=True)
     precio=models.DecimalField(
         max_digits=8,
         decimal_places=2,
         validators=[MinValueValidator(Decimal('0.00'))]
     )
-    paradas=models.ManyToManyField(Parada,related_name="recorridos",blank=True)
+    puntos_turisticos=models.ManyToManyField(PuntoTuristico,related_name="recorridos",blank=True)
 
 
     def __str__(self):
@@ -67,8 +71,9 @@ class Reserva(models.Model):
     forma_de_pago = models.CharField(max_length=20, choices=FORMA_PAGO, default="EFECTIVO")
     fecha_creacion=models.DateTimeField(auto_now_add=True)
     cantidad_personas=models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    recorrido=models.ManyToManyField(
+    recorrido=models.OneToOneField(
         Recorrido,
+        on_delete=models.CASCADE,
         related_name='reservas')
 
     class Meta:
@@ -79,13 +84,4 @@ class Reserva(models.Model):
         return f"Reserva del {self.fecha_creacion:%d/%m/%Y %H:%M} – {self.cantidad_personas} personas"
 
 
-class Itinerario(models.Model):
-    nombre=models.CharField(max_length=30)
-    observaciones=models.TextField()
-    recorridos=models.ManyToManyField(Recorrido, related_name='itinerarios')
 
-    class Meta:
-        ordering=['nombre']
-
-    def __str__(self):
-        return f'itinerario: {self.nombre}'

@@ -1,11 +1,11 @@
 
 from django import forms
 
-from apps.reservas.models import Recorrido, Parada
+from apps.reservas.models import Recorrido, PuntoTuristico
 
 class RecorridoForm(forms.ModelForm):
     paradas=forms.ModelMultipleChoiceField(
-        queryset=Parada.objects.filter(estado=True),
+        queryset=PuntoTuristico.objects.filter(estado=True),
         widget=forms.SelectMultiple(attrs={
             'class':'form-select',
             'id':'paradas',
