@@ -33,83 +33,88 @@
             <!--contenedor del cuerpo de la pagina-->
         <div class="container mb-8">
 
-<!--            <section id="agregar_recorrido" class="mb-5">-->
-<!--                &lt;!&ndash;disparador para mostrar el panel oculto&ndash;&gt;-->
-<!--                <p class="d-inline-flex gap-1">-->
-<!--                    <a class="btn btn-disparador" data-bs-toggle="collapse" href="#agregar" role="button" aria-expanded="false" aria-controls="agregar">-->
-<!--                        Agregar Recorrido-->
-<!--                    </a>-->
+            <form  method="post" id="form_recorrido" enctype="multipart/form-data">
+                {% csrf_token %}
 
-<!--                </p>-->
+                <h3 class="mb-4">Formulario para agregar recorrido</h3>
 
-                <!--panel colapsable (dentro del div va todo lo oculto)-->
-<!--                <div class="collapse" id="agregar">-->
-                    <form  method="post" id="form_recorrido">
-                        {% csrf_token %}
+                <div class="row mb-5">
 
-                        <h3 class="mb-4">Formulario para agregar recorrido</h3>
+                    <!-- Nombre y Precio -->
+                    <div class="col-md-6">
+                        <p class="obligatorio"></p>
+                        {{form.nombre.label_tag}}
+                        {{form.nombre}}
+                        {%if form.nombre.errors%}
+                            <div class="text-danger">{{form.nombre.errors}}</div>
+                        {%endif%}
+                    </div>
+                    <div class="col-md-6">
+                        {{form.precio.label_tag}}
+                        {{form.precio}}
+                        {%if form.precio.errors%}
+                            <div class="text-danger">{{form.precio.errors}}</div>
+                        {%endif%}
+                    </div>
 
-                        <div class="row mb-5">
+                </div>
 
-                            <div class="col-md-6">
-                                <p class="obligatorio"></p>
-                                <label for="{{form.nombre.id_for_label}}">Nombre del recorrido</label>
-                                {{form.nombre}}
+                <!-- Horas y Estado -->
+                <div class="row mb-5">
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{form.hora_salida.label_tag}}
+                                {{form.hora_salida}}
                             </div>
-                            <div class="col-md-6">
-                                <label for="{{form.precio.id_for_label}}">Precio del recorrido</label>
-                                {{form.precio}}
-                            </div>
-
-                        </div>
-
-                        <div class="row mb-5">
-
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="{{form.hora_salida.id_for_label}}">horario de salida</label>
-                                        {{form.hora_salida}}
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="{{form.hora_llegada.id_for_label}}">horario de llegada</label>
-                                        {{form.hora_llegada}}
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <label for="{{form.estado.id_for_label}}">Estado del recorrido</label>
-                                {{form.estado}}
-                            </div>
-
-                        </div>
-
-                        <div class="row mb-5">
-
-                            <div class="col-md-6">
-                                    <label for="{{form.descripcion.id_for_label}}">Descripcion del recorrido</label>
-                                     {{form.descripcion}}
-                            </div>
-
-                        </div>
-
-                        <div class="row mb-5">
-                            <div class="col-md-12">
-                                <label for="{{form.paradas.id_for_label}}">Paradas del recorrido</label>
-                                {{form.paradas}}
+                            <div class="col-md-4">
+                                {{form.hora_llegada.label_tag}}
+                                {{form.hora_llegada}}
                             </div>
                         </div>
 
+                    </div>
+                    <div class="col-md-6">
+                        {{form.estado.label_tag}}
+                        {{form.estado}}
+                    </div>
 
-                        <div class="btn_position">
-                            <input type="reset" value="Cancelar" class="btn btn-cancelar">
-                            <input type="submit" value="Aceptar" class="btn btn-formulario">
-                        </div>
+                </div>
 
-                    </form>
-<!--                </div>-->
-<!--            </section>-->
+                <div class="row mb-5">
+
+                    <div class="col-md-6">
+                        {{form.descripcion.label_tag}}
+                        {{form.descripcion}}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.imagen.label_tag }}
+                        {{ form.imagen }}
+                        {% if form.imagen.errors %}
+                            <div class="text-danger">{{ form.imagen.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="row mb-5">
+
+
+                    <div class="col-md-6">
+                        {{form.puntos_turisticos.label_tag}}
+                        {{form.puntos_turisticos}}
+                    </div>
+
+                </div>
+
+
+                <div class="btn_position">
+                    <input type="reset" value="Cancelar" class="btn btn-cancelar">
+                    <input type="submit" value="Aceptar" class="btn btn-formulario">
+                </div>
+
+            </form>
 
         </div>
 
