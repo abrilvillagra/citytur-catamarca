@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>{%block title%}Gestion de recorridos{%block title%}</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link rel="stylesheet" href="gestionRecorridos.css">
+        {%block extra_head%}{%end_block%}
+    </head>
+
+
+    <body>
+        <!--contenedor de la cabezera-->
+        <div class="mb-4">
+
+            <header>
+                <img src="{% static '../static/imagen1.jpg' %}" class="banner-img"/>
+                <h1 class="text-center mt-3">{% block header_title%}Gestionar Recorridos{%endblock%}</h1>
+                <nav>
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item"><a class="nav-link" href="{% url_inicio %}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{%url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url_reservas %}">Reserva</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div>
+            {% block content %}
+            <!-- Aquí se insertará el contenido de cada página -->
+            {% endblock %}
+        </div>
+
+
+        <footer class="text-center mt-4 p-3 ">
+            <p>© 2025 CityTur Catamarca</p>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    </body>
+</html>
