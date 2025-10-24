@@ -72,15 +72,23 @@ class UnidadTransporte(models.Model):
 
 class Reserva(models.Model):
     FORMA_PAGO = [
-        ('EFECTIVO', 'EFECTIVO'),
-        ('TRASNFERENCIA', 'TRASNFERENCIA'),
-        ('TARJETA', 'TARJETA'),
-        ('QR', 'QR'),
+        ('EFECTIVO', 'Efectivo'),
+        ('TRASNFERENCIA', 'Transferencia'),
+        ('TARJETA', 'Tarjeta'),
+        ('QR', 'Codigo QR'),
     ]
+
+
+    nombre_completo = models.CharField(max_length=100)
+    email = models.EmailField()
+    telefono = models.CharField(max_length=20)
+
     forma_de_pago = models.CharField(max_length=20, choices=FORMA_PAGO, default="EFECTIVO")
     fecha_creacion=models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    fecha_reserva = models.DateField()
     cantidad_personas=models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    recorrido=models.OneToOneField(
+    recorrido=models.ForeignKey(
         Recorrido,
         on_delete=models.CASCADE,
         related_name='reservas')
@@ -90,7 +98,7 @@ class Reserva(models.Model):
 
 
     def __str__(self):
-        return f"Reserva del {self.fecha_creacion:%d/%m/%Y %H:%M} – {self.cantidad_personas} personas"
+        return f"Reserva {self.nombre_completo} – {self.recorrido} – {self.fecha_reserva:%d/%m/%Y} – {self.cantidad_personas} pax"
 
 
 
