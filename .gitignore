@@ -24,3 +24,6 @@ __pycache__/
 
 #base local
 db.sqlite3
+
+#carpeta media
+/media/

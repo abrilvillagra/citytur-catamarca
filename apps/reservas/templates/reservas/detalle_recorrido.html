@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} Detalle de Recorrido {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Detalle de Recorrido</h2>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="card w-50 mb-3 text-bg-light">
+        {% if recorrido.imagen %}
+            <img src="{{ recorrido.imagen.url }}" class="card-img-top">
+        {% endif %}
+        <div class="card-body">
+            <h4 class="card-title d-inline">{{ recorrido.nombre }}</h4>
+            <p class="card-text"><strong>Descripcion: </strong>{{ recorrido.descripcion }}</p>
+            <p class="card-text"><strong>Puntos turisticos: </strong>
+                {% for punto in recorrido.puntos_turisticos.all %}
+                    *{{ punto.nombre }}
+                {% empty %}
+                    El Recorrido no tiene puntos turisticos asignados
+                {% endfor %}
+            </p>
+            <p class="card-text"><strong>hora de salida: </strong>{{ recorrido.hora_salida}}</p>
+            <p class="card-text"><strong>hora de llegada: </strong>{{ recorrido.hora_llegada}}</p>
+            <p class="card-text"><strong>Precio: </strong>{{ recorrido.precio }}</p>
+        <!--    <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>-->
+
+            <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary mt-3">Volver</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

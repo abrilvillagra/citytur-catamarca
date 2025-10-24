@@ -1,12 +1,17 @@
 from pyexpat.errors import messages
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RecorridoForm
 from django.contrib import messages
-import logging
+from .models import Recorrido
+from django.urls import reverse
+#import logging
 
 
 # Create your views here.
+def detalle_recorrido(request, pk):
+    recorrido=get_object_or_404(Recorrido, pk=pk)
+    return render(request, 'reservas/detalle_recorrido.html',{'recorrido':recorrido})
 
 def agregar_recorrido(request):
     nuevo_recorrido=None
@@ -17,7 +22,7 @@ def agregar_recorrido(request):
             nuevo_recorrido.save()
             recorrido_form.save_m2m()
             messages.success(request, "Recorrido guardado correctamente.")
-            return redirect('reservas:agregar_recorrido')
+            return redirect(reverse('reservas:detalle_recorrido', args=[nuevo_recorrido.id]) )
         else:
             messages.error(request,"Corrige los errores del formulario.")
     else:
