@@ -11,7 +11,7 @@ from django.urls import reverse
 # Create your views here.
 def detalle_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
-    return render(request, 'reservas/detalle_recorrido.html',{'recorrido':recorrido})
+    return render(request, 'recorridos/detalle_recorrido.html',{'recorrido':recorrido})
 
 def agregar_recorrido(request):
     nuevo_recorrido=None
@@ -28,4 +28,4 @@ def agregar_recorrido(request):
     else:
         recorrido_form=RecorridoForm()
 
-    return render(request, 'reservas/gestion_recorridos.html', {'form':recorrido_form})
+    return render(request, 'recorridos/gestion_recorridos.html', {'form':recorrido_form})
