@@ -1,3 +1,4 @@
+import os
 from pyexpat.errors import messages
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -29,3 +30,19 @@ def agregar_recorrido(request):
         recorrido_form=RecorridoForm()
 
     return render(request, 'recorridos/gestion_recorridos.html', {'form':recorrido_form})
+
+
+def eliminar_recorrido(request, pk):
+    recorrido=get_object_or_404(Recorrido, pk=pk)
+
+    if request.method=='POST':
+        imagen_path=recorrido.imagen.path if recorrido.imagen else None
+
+        titulo_recorrido=recorrido.nombre
+        recorrido.delete()
+
+        if imagen_path and os.path.isfile(imagen_path):
+            os.remove(imagen_path)
+
+    return redirect(reverse('reservas:agregar_recorrido'))
+
