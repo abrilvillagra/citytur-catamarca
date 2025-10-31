@@ -8,5 +8,6 @@ urlpatterns = [
     path('gestionar_recorridos/', views.agregar_recorrido, name="agregar_recorrido"),
     path('recorrido/<int:pk>/eliminar/', views.eliminar_recorrido, name="eliminar_recorrido"),
     path('recorrido/<int:pk>/editar/', views.editar_recorrido, name="editar_recorrido"),
+    path('puntos_turisticos/', views.agregar_punto, name="agregar_punto"),
 
 ]
