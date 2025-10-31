@@ -18,7 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render,redirect
-from apps.reservas import views as reservas_views
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inicio/', lambda request: render(request, 'reservas/inicio.html'), name='inicio'),
@@ -28,3 +29,6 @@ urlpatterns = [
     path('gestion_recorridos/', lambda request: redirect('reservas:agregar_recorrido'), name='gestion_directa'),
     path('reservas/', include('apps.reservas.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
