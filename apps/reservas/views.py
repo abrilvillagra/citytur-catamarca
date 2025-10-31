@@ -31,6 +31,20 @@ def agregar_recorrido(request):
 
     return render(request, 'recorridos/gestion_recorridos.html', {'form':recorrido_form})
 
+def editar_recorrido(request, pk):
+    recorrido=get_object_or_404(Recorrido, pk=pk)
+
+    if  request.method == 'POST':
+        form_recorrido=RecorridoForm(request.POST, request.FILES, instance=recorrido)
+        if form_recorrido.is_valid():
+            form_recorrido.save()
+            messages.success(request, 'Se ha actualizado correctamente el Recorrido')
+            return redirect('reservas:detalle_recorrido', pk=recorrido.pk)
+    else:
+        form_recorrido=RecorridoForm(instance=recorrido)
+
+    return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido} )
+
 
 def eliminar_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
