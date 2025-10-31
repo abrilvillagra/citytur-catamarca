@@ -61,9 +61,10 @@ def eliminar_recorrido(request, pk):
     return redirect(reverse('reservas:agregar_recorrido'))
 
 def agregar_punto(request):
+    puntos=PuntoTuristico.objects.all()
     nuevo_punto=None
     if request.method=='POST':
-        punto_form=PuntoTuristaForm(request.POST, request.FILE)
+        punto_form=PuntoTuristaForm(request.POST)
         if punto_form.is_valid():
             nuevo_punto = punto_form.save(commit=False)
             nuevo_punto.save()
@@ -74,4 +75,14 @@ def agregar_punto(request):
     else:
         punto_form=PuntoTuristaForm()
 
-    return render(request, 'recorridos/puntos_turisticos.html', {'form':punto_form})
+    return render(request, 'recorridos/puntos_turisticos.html', {
+        'form':punto_form,
+        'puntos':puntos,
+    })
+
+def eliminar_punto(request, pk):
+    punto=get_object_or_404(PuntoTuristico, pk=pk)
+    if request.method=='POST':
+        punto.delete()
+        messages.success(request, "Punto turístico eliminado correctamente.")
+    return redirect('reservas:agregar_punto')

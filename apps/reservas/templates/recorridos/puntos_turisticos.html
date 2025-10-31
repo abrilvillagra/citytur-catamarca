@@ -5,7 +5,113 @@
 {% block content %}
 
 <div class="container mb-8">
+    <form method="post" id="form_punto_turistico">
+        {% csrf_token %}
 
+        <h3 class="mb-4">Agregar Punto Turistico</h3>
+
+        <div class="row mb-5">
+
+            <!-- Nombre y categoria -->
+            <div class="col-md-6">
+                {{form.nombre.label_tag}}
+                {{form.nombre}}
+                {%if form.nombre.errors%}
+                    <div class="text-danger">{{form.nombre.errors}}</div>
+                {%endif%}
+            </div>
+            <div class="col-md-6">
+                {{form.categoria.label_tag}}
+                {{form.categoria}}
+                {%if form.categoria.errors%}
+                    <div class="text-danger">{{form.categoria.errors}}</div>
+                {%endif%}
+            </div>
+
+        </div>
+
+        <!-- Descripcion y ubicacion -->
+        <div class="row mb-5">
+
+            <div class="col-md-6">
+                {{form.descripcion.label_tag}}
+                {{form.descripcion}}
+                {%if form.descripcion.errors%}
+                    <div class="text-danger">{{form.descripcion.errors}}</div>
+                {%endif%}
+            </div>
+            <div class="col-md-6">
+                {{form.ubicacion.label_tag}}
+                {{form.ubicacion}}
+                {%if form.ubicacion.errors%}
+                    <div class="text-danger">{{form.ubicacion.errors}}</div>
+                {%endif%}
+            </div>
+        </div>
+
+        <!-- estado -->
+        <div class="row mb-5">
+
+            <div class="col-md-6">
+                {{form.estado.label_tag}}
+                {{form.estado}}
+                {%if form.estado.errors%}
+                    <div class="text-danger">{{form.estado.errors}}</div>
+                {%endif%}
+            </div>
+
+        </div>
+
+        <!--botones-->
+        <div class="btn_position">
+            <input type="reset" value="Cancelar" class="btn btn-cancelar">
+            <input type="submit" value="Aceptar" class="btn btn-formulario">
+        </div>
+
+    </form>
+
+    <!--Tabla-->
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Ubicacion</th>
+                <th>estado</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for punto in puntos %}
+            <tr>
+                <td>{{punto.nombre}}</td>
+                <td>{{punto.categoria}}</td>
+                <td>{{punto.ubicacion}}</td>
+                <td>
+                    {% if punto.estado %}
+                        <span class="text-success">Activo</span>
+                    {% else %}
+                        <span class="text-danger">Inactivo</span>
+                    {% endif %}
+                </td>
+                 <td>
+                     <form action="{% url 'reservas:eliminar_punto' punto.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este punto?');">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    No hay puntos turísticos registrados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 </div>
 

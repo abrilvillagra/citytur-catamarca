@@ -22,6 +22,10 @@ form{
     padding: 20px;
 }
 
+form:not(.form_eliminar_punto){
+   background-color: #ffffff;
+}
+
 div .paradas{
     color: #e65100;;
 }
