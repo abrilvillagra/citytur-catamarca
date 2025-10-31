@@ -86,6 +86,7 @@ class Reserva(models.Model):
     forma_de_pago = models.CharField(max_length=20, choices=FORMA_PAGO, default="EFECTIVO")
     fecha_creacion=models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
+    activa = models.BooleanField(default=True)
     fecha_reserva = models.DateField()
     cantidad_personas=models.PositiveIntegerField(validators=[MinValueValidator(1)])
     recorrido=models.ForeignKey(

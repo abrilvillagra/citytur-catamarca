@@ -76,10 +76,41 @@ def crear_reserva(request):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Tu reserva fue registrada correctamente!")
-            return redirect('reservas:reservas_crear')
+            return redirect('reservas:listar_reservas')
         else:
             messages.error(request, "Por favor corregí los errores antes de enviar.")
     else:
         form = ReservaForm()
 
     return render(request, 'reservas/form_reserva.html', {'form': form})
+
+def listar_reservas(request):
+    """Lista todas las reservas activas"""
+    reservas = Reserva.objects.filter(activa=True)
+    return render(request, 'reservas/listar_reservas.html', {'reservas': reservas})
+
+
+def editar_reserva(request, id):
+    """Editar una reserva existente"""
+    reserva = get_object_or_404(Reserva, id=id)
+    if request.method == 'POST':
+        form = ReservaForm(request.POST, instance=reserva)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Reserva actualizada correctamente.")
+            return redirect('reservas:listar_reservas')
+        else:
+            messages.error(request, "Por favor corregí los errores antes de guardar.")
+    else:
+        form = ReservaForm(instance=reserva)
+
+    return render(request, 'reservas/form_reserva.html', {'form': form, 'editar': True})
+
+
+def cancelar_reserva(request, id):
+    """Cancelar (desactivar) una reserva"""
+    reserva = get_object_or_404(Reserva, id=id)
+    reserva.activa = False
+    reserva.save()
+    messages.info(request, "La reserva fue cancelada correctamente.")
+    return redirect('reservas:listar_reservas')

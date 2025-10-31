@@ -12,21 +12,22 @@
 <body>
 <header>
     <img src="{% static 'img/catedral.png' %}" class="banner-img"/>
-    <h1 class="text-center mt-3">Reserva tu lugar</h1>
+    <h1 class="text-center mt-3">
+        {% if editar %}
+            Editar Reserva
+        {% else %}
+            Reserva tu lugar
+        {% endif %}
+    </h1>
     <nav>
         <ul class="nav justify-content-center">
-            <li class="nav-item"><a class="nav-link" href="{% url 'reservas:inicio'  %}">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'reservas:inicio' %}">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
             <li class="nav-item"><a class="nav-link active" href="{% url 'reservas:reservas_crear' %}">Reserva</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'reservas:listar_reservas' %}">Mis Reservas</a></li>
         </ul>
     </nav>
 </header>
-
-<section class="container mt-4">
-    <article>
-        <h2>Reservación</h2>
-    </article>
-</section>
 
 <div class="container mt-4">
     {% if messages %}
@@ -73,8 +74,11 @@
         </div>
 
         <div class="d-flex justify-content-between">
+            <a href="{% url 'reservas:listar_reservas' %}" class="btn btn-secondary">Ver mis reservas</a>
             <a href="{% url 'reservas:inicio' %}" class="btn btn-danger">Cancelar</a>
-            <button type="submit" class="btn btn-success">Aceptar</button>
+            <button type="submit" class="btn btn-success">
+                {% if editar %}Guardar cambios{% else %}Aceptar{% endif %}
+            </button>
         </div>
     </form>
 </div>
