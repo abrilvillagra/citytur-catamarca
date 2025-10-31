@@ -42,3 +42,28 @@ class RecorridoForm(forms.ModelForm):
         if hora_salida and hora_llegada and hora_salida >= hora_llegada:
             raise ValidationError("La hora de llegada debe ser posterior a la hora de salida")
         return cleaned_data
+
+
+class PuntoTuristaForm(forms.ModelForm):
+    ESTADOS=[
+        ('True', 'Activo'),
+        ('False', 'Inactivo'),
+    ]
+
+    estado=forms.TypedChoiceField(
+        choices=ESTADOS,
+        coerce=lambda val:val=='True',
+        widget=forms.Select(attrs={'class':'form-select','aria-label':'Default select example'}),
+        required=False
+    )
+
+    class Meta:
+        model=PuntoTuristico
+        fields=['nombre', 'categoria', 'descripcion', 'ubicacion', 'estado']
+
+        widgets={
+            'nombre':forms.TextInput(attrs={'required':'required'}),
+            'categoria':forms.Select(attrs={'class':'form-select'}),
+            'descripcion':forms.Textarea(attrs={'rows':'3', 'cols':'40'}),
+            'ubicacion':forms.TextInput(),
+        }
