@@ -95,7 +95,7 @@
                     {% endif %}
                 </td>
                  <td>
-                     <form action="{% url 'reservas:eliminar_punto' punto.id %}" method="POST">
+                     <form action="{% url 'reservas:eliminar_punto' punto.id %}" method="POST" class="form_eliminar_punto">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este punto?');">
                             Eliminar

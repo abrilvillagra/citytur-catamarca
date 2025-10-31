@@ -69,7 +69,7 @@ def agregar_punto(request):
             nuevo_punto = punto_form.save(commit=False)
             nuevo_punto.save()
             messages.success(request, "Punto turistico guardado correctamente.")
-
+            punto_form = PuntoTuristaForm()
         else:
             messages.error(request, "Corrige los errores del formulario.")
     else:
