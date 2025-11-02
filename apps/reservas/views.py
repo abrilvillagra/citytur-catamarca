@@ -66,7 +66,7 @@ def eliminar_recorrido(request, pk):
         if imagen_path and os.path.isfile(imagen_path):
             os.remove(imagen_path)
 
-    return redirect(reverse('reservas:agregar_recorrido'))
+    return redirect(reverse('reservas:inicio'))
 
 def agregar_punto(request):
     puntos=PuntoTuristico.objects.all()
