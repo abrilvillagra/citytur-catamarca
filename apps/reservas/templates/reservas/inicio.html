@@ -36,8 +36,28 @@
         </article>
     </section>
 
+    <!--cards para los recorridos-->
     <section id="recorridos_disponibles" class="container mt-4">
         <h3>Recorridos disponibles</h3>
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3">
+            {% for recorrido in recorridos %}
+                <div class="col mb-3">
+                    <div class="card text-center h-100">
+                        <img src="{{ recorrido.imagen.url }}" class="card-img-top" height="250" width="300">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ recorrido.nombre }}</h2>
+                            <p class="card-text"><strong>Precio: </strong>{{ recorrido.precio }}</p>
+                            <p class="card-text"><strong>hora de salida: </strong>{{ recorrido.hora_salida}}</p>
+                            <a href="{% url 'reservas:detalle_recorrido' recorrido.id %}" class="btn btn-detalle">
+                                Ver detalles
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
     </section>
 

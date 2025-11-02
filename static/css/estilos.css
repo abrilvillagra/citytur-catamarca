@@ -88,6 +88,17 @@ input[name="Nombre"] {
     background-color: #7f0000;
 }
 
+.btn-detalle{
+    background-color: #e65100;
+    border: none;
+}
+
+.btn-detalle:hover{
+    background-color: #bf360c;
+    color: white;
+}
+
+
 /* Footer */
 footer {
     background-color: #e65100;

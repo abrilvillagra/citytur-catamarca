@@ -28,7 +28,7 @@
 
             <form id="form_eliminar" action="{% url 'reservas:eliminar_recorrido' recorrido.pk%}" method="POST">
                 {% csrf_token %}
-                <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary">Volver</a>
+                <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary">Añadir otro recorrido</a>
                 <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-primary">Editar</a>
                 <input type="submit" value="Eliminar" class="btn btn-danger">
             </form>

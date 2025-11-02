@@ -12,7 +12,8 @@ from django.urls import reverse
 # VISTAS DE INICIO
 # -------------------------------
 def inicio(request):
-    return render(request, 'reservas/inicio.html')
+    recorridos=Recorrido.objects.all()
+    return render(request, 'reservas/inicio.html', {'recorridos':recorridos})
 
 
 # -------------------------------
