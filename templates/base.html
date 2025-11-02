@@ -21,13 +21,35 @@
                 <h1 class="text-center mt-3">{% block header_title%}Gestionar Recorridos{%endblock%}</h1>
                 <nav>
                     <ul class="nav justify-content-center">
-                        <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="{%url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{#}">Reserva</a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'inicio' %}active{% endif %}" href="{% url 'reservas:inicio' %}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agregar_recorrido' %}active{% endif %}" href="{%url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agregar_punto' %}active{% endif %}" href="{% url 'reservas:agregar_punto' %}">Puntos Turisticos</a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'reservas_crear' %}active{% endif %}" href="{% url 'reservas:reservas_crear' %}">Reserva</a></li>
                     </ul>
                 </nav>
             </header>
         </div>
+
+        <!--mensajes de error de django***************************-->
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div
+                        class="alert
+                               {% if message.tags %}
+                                   alert-{{ message.tags }}
+                               {% else %}
+                                   alert-info
+                               {% endif %}
+                               alert-dismissible fade show"
+                        role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
 
         <div>
             {% block content %}
