@@ -100,6 +100,7 @@ def eliminar_punto(request, pk):
 # VISTAS DE RESERVAS
 # -------------------------------
 def crear_reserva(request):
+    recorrido_id=request.GET.get('recorrido')
     if request.method == 'POST':
         form = ReservaForm(request.POST)
         if form.is_valid():
@@ -109,7 +110,10 @@ def crear_reserva(request):
         else:
             messages.error(request, "Por favor corregí los errores antes de enviar.")
     else:
-        form = ReservaForm()
+        if recorrido_id:
+            form=ReservaForm(initial={'recorrido':recorrido_id})
+        else:
+            form = ReservaForm()
 
     return render(request, 'reservas/form_reserva.html', {'form': form})
 

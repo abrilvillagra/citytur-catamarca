@@ -31,6 +31,7 @@
                 <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary">Añadir otro recorrido</a>
                 <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-primary">Editar</a>
                 <input type="submit" value="Eliminar" class="btn btn-danger">
+                <a href="{% url 'reservas:reservas_crear'%}?recorrido={{ recorrido.id }}" class="btn btn-primary">Reservar</a>
             </form>
 
         </div>
