@@ -44,7 +44,11 @@
             {% for recorrido in recorridos %}
                 <div class="col mb-3">
                     <div class="card text-center h-100">
-                        <img src="{{ recorrido.imagen.url }}" class="card-img-top" height="250" width="300">
+                        {% if recorrido.imagen %}
+                            <img src="{{ recorrido.imagen.url }}" class="card-img-top" height="250" width="300">
+                        {% else %}
+                            <img src="{% static 'img/imagen1.jpg' %}" class="card-img-top" height="250" width="300" alt="Imagen por defecto">
+                        {% endif %}
                         <div class="card-body">
                             <h2 class="card-title">{{ recorrido.nombre }}</h2>
                             <p class="card-text"><strong>Precio: </strong>{{ recorrido.precio }}</p>
