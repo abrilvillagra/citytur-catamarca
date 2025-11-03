@@ -14,6 +14,7 @@ urlpatterns = [
     path('recorrido/<int:pk>/eliminar/', views.eliminar_recorrido, name="eliminar_recorrido"),
     path('puntos_turisticos/', views.agregar_punto, name="agregar_punto"),
     path('puntos/eliminar/<int:pk>/', views.eliminar_punto, name="eliminar_punto"),
+    path('puntos/editar/<int:pk>/', views.editar_punto, name="editar_punto"),
 
 
     # Reservas

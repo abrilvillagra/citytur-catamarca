@@ -23,15 +23,16 @@
             <p class="card-text"><strong>hora de salida: </strong>{{ recorrido.hora_salida}}</p>
             <p class="card-text"><strong>hora de llegada: </strong>{{ recorrido.hora_llegada}}</p>
             <p class="card-text"><strong>Precio: </strong>{{ recorrido.precio }}</p>
-        <!--    <p class="card-text"><strong>Publicado por: </strong>{{ anuncio.publicado_por }}</p>-->
-
 
             <form id="form_eliminar" action="{% url 'reservas:eliminar_recorrido' recorrido.pk%}" method="POST">
                 {% csrf_token %}
-                <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary">Añadir otro recorrido</a>
-                <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-primary">Editar</a>
-                <input type="submit" value="Eliminar" class="btn btn-danger">
-                <a href="{% url 'reservas:reservas_crear'%}?recorrido={{ recorrido.id }}" class="btn btn-primary">Reservar</a>
+
+                <div>
+                    <a href="{% url 'reservas:reservas_crear'%}?recorrido={{ recorrido.id }}" class="btn btn-formulario">Reservar</a>
+                    <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-formulario">Editar</a>
+                    <input type="submit" value="Eliminar" class="btn btn-cancelar">
+                </div>
+
             </form>
 
         </div>
