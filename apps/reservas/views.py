@@ -12,7 +12,7 @@ from django.urls import reverse
 # VISTAS DE INICIO
 # -------------------------------
 def inicio(request):
-    recorridos=Recorrido.objects.all()
+    recorridos=Recorrido.objects.filter(estado=True).order_by('hora_salida')
     return render(request, 'reservas/inicio.html', {'recorridos':recorridos})
 
 
@@ -24,6 +24,7 @@ def detalle_recorrido(request, pk):
     return render(request, 'recorridos/detalle_recorrido.html',{'recorrido':recorrido})
 
 def agregar_recorrido(request):
+    recorridos=Recorrido.objects.all()
     nuevo_recorrido=None
     if request.method=='POST':
         recorrido_form=RecorridoForm(request.POST, request.FILES)
@@ -38,7 +39,10 @@ def agregar_recorrido(request):
     else:
         recorrido_form=RecorridoForm()
 
-    return render(request, 'recorridos/gestion_recorridos.html', {'form': recorrido_form})
+    return render(request, 'recorridos/gestion_recorridos.html', {
+        'form': recorrido_form,
+        'recorridos': recorridos
+    })
 
 def editar_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
