@@ -24,16 +24,42 @@
             <p class="card-text"><strong>hora de llegada: </strong>{{ recorrido.hora_llegada}}</p>
             <p class="card-text"><strong>Precio: </strong>{{ recorrido.precio }}</p>
 
-            <form id="form_eliminar" action="{% url 'reservas:eliminar_recorrido' recorrido.pk%}" method="POST">
-                {% csrf_token %}
 
-                <div>
-                    <a href="{% url 'reservas:reservas_crear'%}?recorrido={{ recorrido.id }}" class="btn btn-formulario">Reservar</a>
-                    <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-formulario">Editar</a>
-                    <input type="submit" value="Eliminar" class="btn btn-cancelar">
-                </div>
 
-            </form>
+            <div class="d-flex justify-content-center mt-3 flex-wrap gap-3">
+                {% if user.is_authenticated %}
+                    {% if es_admin %}
+                        <!-- Botones solo para administradores -->
+                        <div>
+                            <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary btn-action w-100">Añadir otro recorrido</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-primary btn-action w-100">Editar</a>
+                        </div>
+                        <div>
+                            <form action="{% url 'reservas:eliminar_recorrido' recorrido.pk %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-action w-100">Eliminar</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <!-- Botón solo para turistas -->
+                        <div>
+                            <a href="{% url 'reservas:reservas_crear' %}?recorrido={{ recorrido.id }}" class="btn btn-success btn-action w-100">
+                                Reservar
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <!-- Usuario no logueado -->
+                    <div>
+                        <a href="{% url 'usuario:login' %}" class="btn btn-outline-primary btn-action w-100">
+                            Iniciar sesión para reservar
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
 
         </div>
     </div>

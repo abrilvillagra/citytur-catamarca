@@ -2,7 +2,8 @@ from decimal import Decimal
 
 from django.core.validators import MinValueValidator
 from django.db import models
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 # Create your models here.
 
 class PuntoTuristico(models.Model):
@@ -78,7 +79,7 @@ class Reserva(models.Model):
         ('QR', 'Codigo QR'),
     ]
 
-
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     nombre_completo = models.CharField(max_length=100)
     email = models.EmailField()
     telefono = models.CharField(max_length=20)

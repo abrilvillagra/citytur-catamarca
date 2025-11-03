@@ -142,3 +142,11 @@ MEDIA_URL='/media/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#  Configuración de autenticación
+LOGIN_URL = '/usuario/login/'
+LOGOUT_REDIRECT_URL = '/usuario/login/'
+LOGIN_REDIRECT_URL = '/reservas/inicio/'
+
+# Modelo de usuario personalizado
+AUTH_USER_MODEL = 'usuarios.Usuario'
