@@ -6,13 +6,15 @@ from .forms import RecorridoForm, PuntoTuristaForm, ReservaForm
 from django.contrib import messages
 from .models import Recorrido, PuntoTuristico, Reserva
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 #import logging
 
 # -------------------------------
 # VISTAS DE INICIO
 # -------------------------------
 def inicio(request):
-    recorridos=Recorrido.objects.all()
+    recorridos = Recorrido.objects.filter(estado=True).order_by('nombre')  # solo los activos
     return render(request, 'reservas/inicio.html', {'recorridos':recorridos})
 
 
@@ -21,8 +23,16 @@ def inicio(request):
 # -------------------------------
 def detalle_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
-    return render(request, 'recorridos/detalle_recorrido.html',{'recorrido':recorrido})
+    es_admin = False
+    if request.user.is_authenticated:
+        es_admin = request.user.is_superuser or request.user.groups.filter(name='Administrador').exists()
 
+    return render(request, 'recorridos/detalle_recorrido.html', {
+        'recorrido': recorrido,
+        'es_admin': es_admin
+    })
+
+@permission_required('reservas.add_recorrido', raise_exception=True)
 def agregar_recorrido(request):
     nuevo_recorrido=None
     if request.method=='POST':
@@ -40,6 +50,7 @@ def agregar_recorrido(request):
 
     return render(request, 'recorridos/gestion_recorridos.html', {'form': recorrido_form})
 
+@permission_required('reservas.change_recorrido', raise_exception=True)
 def editar_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
 
@@ -54,6 +65,7 @@ def editar_recorrido(request, pk):
 
     return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido} )
 
+@permission_required('reservas.delete_recorrido', raise_exception=True)
 def eliminar_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
 
@@ -68,6 +80,7 @@ def eliminar_recorrido(request, pk):
 
     return redirect(reverse('reservas:inicio'))
 
+@permission_required('reservas.add_puntoturistico', raise_exception=True)
 def agregar_punto(request):
     puntos=PuntoTuristico.objects.all()
     nuevo_punto=None
@@ -88,6 +101,7 @@ def agregar_punto(request):
         'puntos':puntos,
     })
 
+@permission_required('reservas.delete_puntoturistico', raise_exception=True)
 def eliminar_punto(request, pk):
     punto=get_object_or_404(PuntoTuristico, pk=pk)
     if request.method=='POST':
@@ -99,12 +113,17 @@ def eliminar_punto(request, pk):
 # -------------------------------
 # VISTAS DE RESERVAS
 # -------------------------------
+@login_required
 def crear_reserva(request):
     recorrido_id=request.GET.get('recorrido')
     if request.method == 'POST':
         form = ReservaForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Creamos la reserva sin guardarla aún
+            reserva = form.save(commit=False)
+            reserva.usuario = request.user  #Guarda el usuario logueado
+            reserva.save() #Ahora sí se guarda en la base de datos
+
             messages.success(request, "¡Tu reserva fue registrada correctamente!")
             return redirect('reservas:listar_reservas')
         else:
@@ -117,12 +136,13 @@ def crear_reserva(request):
 
     return render(request, 'reservas/form_reserva.html', {'form': form})
 
+@login_required
 def listar_reservas(request):
     """Lista todas las reservas activas"""
-    reservas = Reserva.objects.filter(activa=True)
+    reservas = Reserva.objects.filter(usuario=request.user)
     return render(request, 'reservas/listar_reservas.html', {'reservas': reservas})
 
-
+@login_required
 def editar_reserva(request, id):
     """Editar una reserva existente"""
     reserva = get_object_or_404(Reserva, id=id)
@@ -139,7 +159,7 @@ def editar_reserva(request, id):
 
     return render(request, 'reservas/form_reserva.html', {'form': form, 'editar': True})
 
-
+@login_required
 def cancelar_reserva(request, id):
     """Cancelar (desactivar) una reserva"""
     reserva = get_object_or_404(Reserva, id=id)

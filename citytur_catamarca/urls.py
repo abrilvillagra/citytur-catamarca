@@ -17,18 +17,19 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import render,redirect
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('inicio/', lambda request: render(request, 'reservas/inicio.html'), name='inicio'),
-    path('', lambda request: render(request, 'reservas/inicio.html')),
-    path('reserva/', lambda request: redirect('reservas:reservas_crear'), name='reserva_directa'),
+    path('usuario/', include('apps.usuarios.urls', namespace='usuario')),
+    path('reservas/', include('apps.reservas.urls', namespace='reservas')),
 
-    path('gestion_recorridos/', lambda request: redirect('reservas:agregar_recorrido'), name='gestion_directa'),
-    path('reservas/', include('apps.reservas.urls'))
+    # 👇 Redirige el inicio del sitio directamente a la vista 'inicio' de reservas
+    path('', lambda request: redirect('reservas:inicio')),
 ]
+
+# Para servir archivos multimedia (imágenes subidas)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

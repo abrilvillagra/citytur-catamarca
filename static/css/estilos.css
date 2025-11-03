@@ -104,3 +104,17 @@ footer {
     background-color: #e65100;
     color: white;
 }
+.btn-action {
+    min-width: 150px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-action:hover {
+    transform: scale(1.05);
+}
+
+form.d-inline {
+    margin: 0;
+}
