@@ -31,21 +31,23 @@
                     {% if es_admin %}
                         <!-- Botones solo para administradores -->
                         <div>
-                            <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-secondary btn-action w-100">Añadir otro recorrido</a>
+                            <a href="{% url 'reservas:agregar_recorrido' %}" class="btn btn-outline-success btn-action w-100">Añadir otro recorrido</a>
                         </div>
                         <div>
-                            <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-primary btn-action w-100">Editar</a>
+                            <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-editar btn-action w-100">Editar</a>
                         </div>
                         <div>
                             <form action="{% url 'reservas:eliminar_recorrido' recorrido.pk %}" method="post" class="d-inline">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-action w-100">Eliminar</button>
+                                <button type="submit" class="btn btn-outline-danger btn-action w-100" onclick="return confirm('¿Seguro que quieres eliminar este punto?');">
+                                    Eliminar
+                                </button>
                             </form>
                         </div>
                     {% else %}
                         <!-- Botón solo para turistas -->
                         <div>
-                            <a href="{% url 'reservas:reservas_crear' %}?recorrido={{ recorrido.id }}" class="btn btn-success btn-action w-100">
+                            <a href="{% url 'reservas:reservas_crear' %}?recorrido={{ recorrido.id }}" class="btn btn-reservar btn-action w-100">
                                 Reservar
                             </a>
                         </div>

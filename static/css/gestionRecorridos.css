@@ -100,6 +100,31 @@ input.error_input {
     color: white;
 }
 
+.btn-editar{
+    color: #e65100;
+    border-color: #e65100;
+}
+
+.btn-editar:hover{
+    color: white;
+    border-color: #e65100;
+    background-color: #e65100;
+}
+
+.btn-reservar{
+    color: #079C77;
+    border-color: #079C77;
+    width: 200px;     /* ancho fijo */
+    padding: 10px 20px; /* espacio interno */
+    font-weight: 600;
+}
+
+.btn-reservar:hover{
+    color: white;
+    border-color: #079C77;
+    background-color: #079C77;
+}
+
 .btn_position{
     text-align: center;
 }

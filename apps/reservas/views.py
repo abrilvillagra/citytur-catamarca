@@ -56,6 +56,7 @@ def agregar_recorrido(request):
 
 @permission_required('reservas.change_recorrido', raise_exception=True)
 def editar_recorrido(request, pk):
+    recorridos = Recorrido.objects.all()
     recorrido=get_object_or_404(Recorrido, pk=pk)
 
     if  request.method == 'POST':
@@ -67,7 +68,7 @@ def editar_recorrido(request, pk):
     else:
         form_recorrido=RecorridoForm(instance=recorrido)
 
-    return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido} )
+    return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido, 'recorridos':recorridos} )
 
 @permission_required('reservas.delete_recorrido', raise_exception=True)
 def eliminar_recorrido(request, pk):
@@ -113,6 +114,7 @@ def eliminar_punto(request, pk):
         messages.success(request, "Punto turístico eliminado correctamente.")
     return redirect('reservas:agregar_punto')
 
+@permission_required('reservas.change_puntoturistico', raise_exception=True)
 def editar_punto(request, pk):
     punto=get_object_or_404(PuntoTuristico, pk=pk)
 
