@@ -20,6 +20,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
+from apps.reservas import views as reservas_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +29,8 @@ urlpatterns = [
     path('reservas/', include('apps.reservas.urls', namespace='reservas')),
 
     # 👇 Redirige el inicio del sitio directamente a la vista 'inicio' de reservas
-    path('', lambda request: redirect('reservas:inicio')),
+    path('', reservas_views.inicio, name='home'),
+    path('informes/', include('apps.informes.urls', namespace='informes')),
 ]
 
 # Para servir archivos multimedia (imágenes subidas)

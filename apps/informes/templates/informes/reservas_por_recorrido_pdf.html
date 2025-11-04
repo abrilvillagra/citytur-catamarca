@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reservas por Recorrido</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h2 { text-align: center; color: #01579b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        th { background-color: #bbdefb; }
+    </style>
+</head>
+<body>
+    <h2>Reservas del recorrido: {{ recorrido.nombre }}</h2>
+    <table>
+        <thead>
+            <tr><th>Turista</th><th>Cantidad Personas</th><th>Forma de Pago</th></tr>
+        </thead>
+        <tbody>
+            {% for r in reservas %}
+            <tr><td>{{ r.usuario.username }}</td><td>{{ r.cantidad_personas }}</td><td>{{ r.forma_de_pago }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
