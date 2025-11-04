@@ -45,8 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'apps.usuarios',
-    'apps.reservas'
+    'apps.reservas',
+    'apps.informes',
 ]
+# Agregar la app wkhtmltopdf
+INSTALLED_APPS += ['wkhtmltopdf']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -150,3 +153,8 @@ LOGIN_REDIRECT_URL = '/reservas/inicio/'
 
 # Modelo de usuario personalizado
 AUTH_USER_MODEL = 'usuarios.Usuario'
+
+WKHTMLTOPDF_CMD = r'"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"'
+WKHTMLTOPDF_CMD_OPTIONS = {
+    'quiet': True,
+}

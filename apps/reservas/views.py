@@ -15,7 +15,10 @@ from django.contrib.auth.decorators import permission_required
 # -------------------------------
 def inicio(request):
     recorridos = Recorrido.objects.filter(estado=True).order_by('nombre')  # solo los activos
-    return render(request, 'reservas/inicio.html', {'recorridos':recorridos})
+    es_admin = False
+    if request.user.is_authenticated and request.user.groups.filter(name='Administrador').exists():
+        es_admin = True
+    return render(request, 'reservas/inicio.html', {'recorridos': recorridos, 'es_admin': es_admin})
 
 
 # -------------------------------

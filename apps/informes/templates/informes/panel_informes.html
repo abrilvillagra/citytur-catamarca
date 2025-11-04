@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block title %}Panel de Informes{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+    <h2 class="text-center mb-4">Panel General de Informes</h2>
+
+    <!-- =================== RECORRIDOS ACTIVOS =================== -->
+    <div class="card mb-5 shadow">
+        <div class="card-header bg-primary text-white fw-bold">
+             Recorridos Activos
+        </div>
+        <div class="card-body">
+            <table class="table table-striped align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in recorridos_activos %}
+                    <tr>
+                        <td>{{ r.nombre }}</td>
+                        <td>{{ r.descripcion }}</td>
+                        <td>${{ r.precio }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="text-center text-muted">No hay recorridos activos.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'informes:recorridos_activos_pdf' %}" class="btn btn-success mt-2">
+                📄 Exportar a PDF
+            </a>
+        </div>
+    </div>
+
+
+    <!-- =================== RESERVAS POR RECORRIDO =================== -->
+    <div class="card mb-5 shadow">
+        <div class="card-header bg-info text-white fw-bold">
+            Reservas por Recorrido
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="recorrido" class="form-label">Seleccione un recorrido:</label>
+                    <select name="recorrido" id="recorrido" class="form-select" required>
+                        <option value="">-- Elegir recorrido --</option>
+                        {% for r in recorridos %}
+                        <option value="{{ r.id }}" {% if r.id|stringformat:"s" == request.GET.recorrido %}selected{% endif %}>
+                            {{ r.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                </div>
+            </form>
+
+            <table class="table table-bordered align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Turista</th>
+                        <th>Cantidad Personas</th>
+                        <th>Forma de Pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in reservas_recorrido %}
+                    <tr>
+                        <td>{{ res.usuario.username }}</td>
+                        <td>{{ res.cantidad_personas }}</td>
+                        <td>{{ res.forma_de_pago }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="text-center text-muted">No hay reservas para este recorrido.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if reservas_recorrido %}
+            <a href="{% url 'informes:reservas_por_recorrido_pdf' %}?recorrido={{ request.GET.recorrido }}" class="btn btn-success mt-2">
+                📄 Exportar a PDF
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- =================== ESTADÍSTICAS DE PASAJEROS =================== -->
+    <div class="card mb-5 shadow">
+        <div class="card-header bg-dark text-white fw-bold">
+             Estadísticas de Pasajeros por Rango de Fechas
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3 mb-3">
+                <div class="col-md-3">
+                    <label for="desde" class="form-label">Desde:</label>
+                    <input type="date" name="desde" id="desde" value="{{ fecha_desde }}" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="hasta" class="form-label">Hasta:</label>
+                    <input type="date" name="hasta" id="hasta" value="{{ fecha_hasta }}" class="form-control">
+                </div>
+                <div class="col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                </div>
+            </form>
+
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Recorrido</th>
+                        <th>Total de Pasajeros</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in estadisticas %}
+                    <tr>
+                        <td>{{ e.recorrido__nombre }}</td>
+                        <td>{{ e.total_pasajeros }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2" class="text-center text-muted">No hay datos en este rango.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if estadisticas %}
+            <a href="{% url 'informes:estadisticas_pasajeros_pdf' %}?desde={{ fecha_desde }}&hasta={{ fecha_hasta }}" class="btn btn-success mt-2">
+                📄 Exportar a PDF
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
