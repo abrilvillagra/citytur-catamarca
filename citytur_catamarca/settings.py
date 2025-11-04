@@ -154,7 +154,15 @@ LOGIN_REDIRECT_URL = '/reservas/inicio/'
 # Modelo de usuario personalizado
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
-WKHTMLTOPDF_CMD = r'"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"'
+
+# Configuración multiplataforma
+import platform
+
+if platform.system() == 'Windows':
+    WKHTMLTOPDF_CMD = r'"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"'
+else:
+    WKHTMLTOPDF_CMD = '/usr/bin/wkhtmltopdf'
+
 WKHTMLTOPDF_CMD_OPTIONS = {
     'quiet': True,
 }
