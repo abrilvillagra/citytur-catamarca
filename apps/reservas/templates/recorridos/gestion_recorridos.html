@@ -73,12 +73,45 @@
 
         </div>
 
+        <!--Puntos turisticos-->
         <div class="row mb-5">
 
 
             <div class="col-md-6">
                 {{form.puntos_turisticos.label_tag}}
-                {{form.puntos_turisticos}}
+
+                <div class="multi-select" id="multiSelect">
+                    <div class="selected">Seleccionar puntos turísticos</div>
+
+                    <div class="options">
+                      {# obtenemos la lista de seleccionados si el form está binded (POST) #}
+                      {% with selected=form.puntos_turisticos.value %}
+                        {% for punto in form.puntos_turisticos.field.queryset %}
+                          {% comment %} id único para el label/input {% endcomment %}
+                          {% with cid="punto_"|add:punto.id|stringformat:"s" %}
+                            <label for="{{ cid }}">
+                              {# checkbox con el mismo name que espera el form #}
+                              <input type="checkbox"
+                                     id="{{ cid }}"
+                                     name="{{ form.puntos_turisticos.html_name }}"
+                                     value="{{ punto.id }}"
+
+                                     {# si el form está enviado (bound), comprobamos en selected #}
+                                     {% if selected %}
+                                       {% if punto.id|stringformat:"s" in selected %}checked{% endif %}
+                                     {% else %}
+                                       {# si no está binded, comprobamos si la instancia ya tiene ese punto (edición) #}
+                                       {% if form.instance.pk and punto in form.instance.puntos_turisticos.all %}checked{% endif %}
+                                     {% endif %}
+
+                              >
+                              {{ punto.nombre }}
+                            </label>
+                          {% endwith %}
+                        {% endfor %}
+                      {% endwith %}
+                    </div>
+                </div>
             </div>
             <a href="{% url 'reservas:agregar_punto' %}" class="link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Agregar nuevo Punto turistico</a>
 
