@@ -37,6 +37,7 @@ def detalle_recorrido(request, pk):
 
 @permission_required('reservas.add_recorrido', raise_exception=True)
 def agregar_recorrido(request):
+    recorridos=Recorrido.objects.all()
     nuevo_recorrido=None
     if request.method=='POST':
         recorrido_form=RecorridoForm(request.POST, request.FILES)
@@ -51,10 +52,14 @@ def agregar_recorrido(request):
     else:
         recorrido_form=RecorridoForm()
 
-    return render(request, 'recorridos/gestion_recorridos.html', {'form': recorrido_form})
+    return render(request, 'recorridos/gestion_recorridos.html', {
+        'form': recorrido_form,
+        'recorridos': recorridos
+    })
 
 @permission_required('reservas.change_recorrido', raise_exception=True)
 def editar_recorrido(request, pk):
+    recorridos = Recorrido.objects.all()
     recorrido=get_object_or_404(Recorrido, pk=pk)
 
     if  request.method == 'POST':
@@ -66,7 +71,7 @@ def editar_recorrido(request, pk):
     else:
         form_recorrido=RecorridoForm(instance=recorrido)
 
-    return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido} )
+    return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido, 'recorridos':recorridos} )
 
 @permission_required('reservas.delete_recorrido', raise_exception=True)
 def eliminar_recorrido(request, pk):
@@ -111,6 +116,25 @@ def eliminar_punto(request, pk):
         punto.delete()
         messages.success(request, "Punto turístico eliminado correctamente.")
     return redirect('reservas:agregar_punto')
+
+@permission_required('reservas.change_puntoturistico', raise_exception=True)
+def editar_punto(request, pk):
+    punto=get_object_or_404(PuntoTuristico, pk=pk)
+
+    if request.method=="POST":
+        punto_form=PuntoTuristaForm(request.POST, instance=punto)
+        if punto_form.is_valid():
+            punto_form.save()
+            messages.success(request, 'Se ha actualizado correctamente el Punto Turistico')
+            return redirect('reservas:agregar_punto')
+    else:
+        punto_form=PuntoTuristaForm(instance=punto)
+
+    puntos = PuntoTuristico.objects.all()
+    return render(request, 'recorridos/puntos_turisticos.html', {
+        'form': punto_form,
+        'puntos': puntos,
+    })
 
 
 # -------------------------------

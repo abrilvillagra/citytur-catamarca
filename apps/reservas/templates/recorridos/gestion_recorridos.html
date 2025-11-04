@@ -8,7 +8,7 @@
 
 <div class="container mb-8">
 
-    <form  method="post" id="form_recorrido" enctype="multipart/form-data">
+    <form  method="post" id="form_recorrido" enctype="multipart/form-data" class="p-4 border rounded bg-light">
         {% csrf_token %}
 
         <h3 class="mb-4">Crear/Modificar Recorrido</h3>
@@ -91,6 +91,53 @@
         </div>
 
     </form>
+
+    <hr>
+    <h3>Recorridos Existentes</h3>
+
+    <!--Tabla-->
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Hora de salida</th>
+                <th>Descripcion</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recorrido in recorridos %}
+            <tr>
+                <td>{{recorrido.nombre}}</td>
+                <td>{{recorrido.precio}}</td>
+                <td>{{recorrido.hora_salida}}</td>
+                <td>
+                    {% if recorrido.estado %}
+                        <span class="text-success">Activo</span>
+                    {% else %}
+                        <span class="text-danger">Inactivo</span>
+                    {% endif %}
+                </td>
+                 <td>
+                     <form action="{% url 'reservas:eliminar_recorrido' recorrido.pk %}" method="POST" class="form_eliminar_punto">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este punto?');">
+                            Eliminar
+                        </button>
+                         <a href="{% url 'reservas:editar_recorrido' recorrido.pk %}" class="btn btn-formulario">Editar</a>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    No hay puntos Recorridos registrados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 </div>
 {% endblock %}

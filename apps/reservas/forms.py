@@ -28,7 +28,7 @@ class RecorridoForm(forms.ModelForm):
             'precio': forms.NumberInput(attrs={'min':'1', 'required':'required'}),
             'hora_salida': forms.TimeInput(format='%H:%M', attrs={'placeholder': 'Ej: 10:30', 'type': 'time', 'required':'required'}),
             'hora_llegada': forms.TimeInput(format='%H:%M',attrs={'placeholder': 'Ej: 10:30', 'type': 'time', 'required':'required'}),
-            'descripcion': forms.Textarea(attrs={'rows':'3', 'cols':'40'}),
+            'descripcion': forms.Textarea(attrs={'rows':'3', 'cols':'35'}),
             'imagen': forms.ClearableFileInput(attrs={'class':'form-select'}),
             'puntos_turisticos': forms.SelectMultiple(attrs={'class':'form-select', 'size':'5'})
         }
@@ -66,7 +66,7 @@ class PuntoTuristaForm(forms.ModelForm):
         widgets={
             'nombre':forms.TextInput(attrs={'required':'required'}),
             'categoria':forms.Select(attrs={'class':'form-select'}),
-            'descripcion':forms.Textarea(attrs={'rows':'3', 'cols':'40'}),
+            'descripcion':forms.Textarea(attrs={'rows':'3', 'cols':'35'}),
             'ubicacion':forms.TextInput(attrs={'required':'required'}),
         }
 

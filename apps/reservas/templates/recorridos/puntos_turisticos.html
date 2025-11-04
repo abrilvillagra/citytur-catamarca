@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="container mb-8">
-    <form method="post" id="form_punto_turistico">
+    <form method="post" id="form_punto_turistico" class="p-4 border rounded bg-light">
         {% csrf_token %}
 
         <h3 class="mb-4">Agregar Punto Turistico</h3>
@@ -70,6 +70,9 @@
 
     </form>
 
+    <hr>
+    <h3>Puntos Turisticos Existentes</h3>
+
     <!--Tabla-->
     <table class="table table-sm">
         <thead>
@@ -100,6 +103,7 @@
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que quieres eliminar este punto?');">
                             Eliminar
                         </button>
+                         <a href="{% url 'reservas:editar_punto' punto.pk %}" class="btn btn-formulario">Editar</a>
                     </form>
                 </td>
             </tr>

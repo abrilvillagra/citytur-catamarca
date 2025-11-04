@@ -1,36 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% extends "base.html" %}
-    {% block title %}Iniciar Sesión{% endblock %}
-    {% block content %}
+{% extends 'base2.html' %}
+{% block title %} Iniciar Sesion{% endblock %}
+{% block content %}
 
-    <h1>Inicio de sesión</h1>
-    <p>Ingrese sus credenciales para ingresar al sistema</p>
-    <hr>
 
     {% if msj %}
     <div style="color: red;">{{ msj }}</div>
     {% endif %}
 
-    <form action="{% url 'usuario:login' %}" method="post">
+    <div class="formulario">
+        <form action="{% url 'usuario:login' %}" method="post" class="p-4 border rounded bg-light">
             {% csrf_token %}
-            <div>
-                <label for="username">Usuario:</label>
+            <h1>Ingresar datos</h1>
+            <div class="username">
                 <input type="text" name="username" id="username" required>
+                <label for="username">Usuario:</label>
             </div>
-            <div>
-                <label for="password">Contraseña:</label>
+            <div class="username">
                 <input type="password" name="password" id="password" required>
+                <label for="password">Contraseña:</label>
             </div>
-                <input type="submit" value="Iniciar sesión">
-    </form>
 
-    {% endblock %}
-
-</body>
-</html>
+            <div class="iniciar">
+                <input type="submit" value="Iniciar sesión" class="btn btn-iniciar">
+            </div>
+        </form>
+    </div>
+{% endblock %}

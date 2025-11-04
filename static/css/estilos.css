@@ -60,7 +60,60 @@ label {
     margin-bottom: 5px;
     color: #e65100;
 }
-input[type="text"],
+
+/*login*/
+.formulario h1{
+  text-align: center;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid silver;
+}
+
+form .username{
+  position: relative;
+  border-bottom: 1px solid silver;
+  margin: 30px 0;
+}
+
+.username input{
+  width: 100%;
+  padding: 0px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.username label{
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+.username input:focus ~ label,
+.username input:focus ~ label{
+    top:-5px;
+    color: #F54927;
+}
+
+.iniciar {
+  text-align: center;
+  margin-top: 30px;
+}
+.btn-iniciar{
+    color: #079C77;
+    border-color: #079C77;
+}
+.btn-iniciar:hover{
+    color: white;
+    border-color: #079C77;
+    background-color: #079C77;
+}
+
+/*input[type="text"],*/
 input[type="email"],
 input[type="date"],
 input[type="tel"],
