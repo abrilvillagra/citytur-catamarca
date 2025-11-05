@@ -44,9 +44,10 @@ def agregar_recorrido(request):
     recorridos=Recorrido.objects.all()
     nuevo_recorrido=None
     if request.method=='POST':
-        recorrido_form=RecorridoForm(request.POST, request.FILES)
+        recorrido_form=RecorridoForm(request.POST, request.FILES, disable_estado=True)
         if recorrido_form.is_valid():
             nuevo_recorrido=recorrido_form.save(commit=False)
+            nuevo_recorrido.estado = True
             nuevo_recorrido.save()
             recorrido_form.save_m2m()
             messages.success(request, "Recorrido guardado correctamente.")
@@ -54,7 +55,7 @@ def agregar_recorrido(request):
         else:
             messages.error(request,"Corrige los errores del formulario.")
     else:
-        recorrido_form=RecorridoForm()
+        recorrido_form=RecorridoForm(disable_estado=True)
 
     return render(request, 'recorridos/gestion_recorridos.html', {
         'form': recorrido_form,
