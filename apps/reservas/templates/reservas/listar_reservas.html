@@ -11,7 +11,7 @@
 <body>
 
 <header class="p-3 text-center bg-light">
-    <h1>Mis Reservas Activas</h1>
+    <h1> Reservas </h1>
     <nav>
         <ul class="nav justify-content-center">
             <li class="nav-item"><a class="nav-link" href="{% url 'reservas:inicio' %}">Inicio</a></li>
@@ -36,6 +36,7 @@
                     <th>Fecha</th>
                     <th>Personas</th>
                     <th>Forma de pago</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -48,9 +49,21 @@
                     <td>{{ r.cantidad_personas }}</td>
                     <td>{{ r.forma_de_pago }}</td>
                     <td>
+                        {% if r.activa %}
+                            <span class="badge bg-success">Activa</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Cancelada</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                    {% if not es_admin and r.activa %}
                         <a href="{% url 'reservas:editar_reserva' r.id %}" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="{% url 'reservas:cancelar_reserva' r.id %}" class="btn btn-danger btn-sm"
-                           onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">Cancelar</a>
+                        <a href="{% url 'reservas:cancelar_reserva' r.id %}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">
+                           Cancelar
+                        </a>
+                    {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

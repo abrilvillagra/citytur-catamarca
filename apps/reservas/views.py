@@ -165,9 +165,26 @@ def crear_reserva(request):
 
 @login_required
 def listar_reservas(request):
-    """Lista todas las reservas activas"""
-    reservas = Reserva.objects.filter(usuario=request.user)
-    return render(request, 'reservas/listar_reservas.html', {'reservas': reservas})
+    """
+    Muestra las reservas:
+    - Los usuarios comunes solo ven sus reservas activas.
+    - Los administradores ven todas (activas y canceladas).
+    """
+    es_admin = request.user.groups.filter(name='Administrador').exists() or request.user.is_superuser
+
+    if es_admin:
+        # Administrador: ve todas las reservas
+        reservas = Reserva.objects.all().order_by('-fecha_reserva')
+    else:
+        # Turista: ve solo sus reservas activas
+        reservas = Reserva.objects.filter(usuario=request.user, activa=True).order_by('-fecha_reserva')
+
+    return render(request, 'reservas/listar_reservas.html', {
+        'reservas': reservas,
+        'es_admin': es_admin  # 👈 pasamos esto al template
+    })
+
+
 
 @login_required
 def editar_reserva(request, id):
@@ -188,10 +205,8 @@ def editar_reserva(request, id):
 
 @login_required
 def cancelar_reserva(request, id):
-    """Cancelar (desactivar) una reserva"""
     reserva = get_object_or_404(Reserva, id=id)
     reserva.activa = False
     reserva.save()
     messages.info(request, "La reserva fue cancelada correctamente.")
     return redirect('reservas:listar_reservas')
-

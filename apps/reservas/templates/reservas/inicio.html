@@ -24,7 +24,7 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
 
 
-                <li class="nav-item"><a class="nav-link" href="{% url 'reservas:reservas_crear' %}">Reserva</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'reservas:reservas_crear' %}">Reservar</a></li>
 
                 {% if user.is_authenticated and es_admin %}
                     <li class="nav-item">
