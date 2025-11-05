@@ -69,6 +69,13 @@ def editar_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
 
     if  request.method == 'POST':
+        # Creamos una copia mutable de request.FILES
+        files = request.FILES.copy()
+
+        # Si el usuario marcó el checkbox "imagen-clear", removemos la imagen subida (si la hay)
+        if 'imagen-clear' in request.POST and 'imagen' in files:
+            del files['imagen']
+
         form_recorrido=RecorridoForm(request.POST, request.FILES, instance=recorrido)
         if form_recorrido.is_valid():
             form_recorrido.save()
