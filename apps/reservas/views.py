@@ -6,9 +6,12 @@ from .forms import RecorridoForm, PuntoTuristaForm, ReservaForm
 from django.contrib import messages
 from .models import Recorrido, PuntoTuristico, Reserva
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.decorators import permission_required
 #import logging
+
+def es_admin(user):
+    return user.is_authenticated and user.groups.filter(name='Administrador').exists()
 
 # -------------------------------
 # VISTAS DE INICIO
@@ -35,7 +38,8 @@ def detalle_recorrido(request, pk):
         'es_admin': es_admin
     })
 
-@permission_required('reservas.add_recorrido', raise_exception=True)
+@login_required
+@user_passes_test(es_admin)
 def agregar_recorrido(request):
     recorridos=Recorrido.objects.all()
     nuevo_recorrido=None
@@ -57,7 +61,8 @@ def agregar_recorrido(request):
         'recorridos': recorridos
     })
 
-@permission_required('reservas.change_recorrido', raise_exception=True)
+@login_required
+@user_passes_test(es_admin)
 def editar_recorrido(request, pk):
     recorridos = Recorrido.objects.all()
     recorrido=get_object_or_404(Recorrido, pk=pk)
@@ -73,7 +78,8 @@ def editar_recorrido(request, pk):
 
     return render(request, 'recorridos/gestion_recorridos.html',{'form':form_recorrido, 'recorridos':recorridos} )
 
-@permission_required('reservas.delete_recorrido', raise_exception=True)
+@login_required
+@user_passes_test(es_admin)
 def eliminar_recorrido(request, pk):
     recorrido=get_object_or_404(Recorrido, pk=pk)
 
@@ -88,7 +94,8 @@ def eliminar_recorrido(request, pk):
 
     return redirect(reverse('reservas:inicio'))
 
-@permission_required('reservas.add_puntoturistico', raise_exception=True)
+@login_required
+@user_passes_test(es_admin)
 def agregar_punto(request):
     puntos=PuntoTuristico.objects.all()
     nuevo_punto=None
@@ -109,7 +116,8 @@ def agregar_punto(request):
         'puntos':puntos,
     })
 
-@permission_required('reservas.delete_puntoturistico', raise_exception=True)
+@login_required
+@user_passes_test(es_admin)
 def eliminar_punto(request, pk):
     punto=get_object_or_404(PuntoTuristico, pk=pk)
     if request.method=='POST':
@@ -117,7 +125,8 @@ def eliminar_punto(request, pk):
         messages.success(request, "Punto turístico eliminado correctamente.")
     return redirect('reservas:agregar_punto')
 
-@permission_required('reservas.change_puntoturistico', raise_exception=True)
+@login_required
+@user_passes_test(es_admin)
 def editar_punto(request, pk):
     punto=get_object_or_404(PuntoTuristico, pk=pk)
 
