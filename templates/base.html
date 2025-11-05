@@ -26,6 +26,7 @@
                         <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agregar_recorrido' %}active{% endif %}" href="{%url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
                         <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agregar_punto' %}active{% endif %}" href="{% url 'reservas:agregar_punto' %}">Puntos Turisticos</a></li>
                         <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'reservas_crear' %}active{% endif %}" href="{% url 'reservas:reservas_crear' %}">Reserva</a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'panel_informes' %}active{% endif %}" href="{% url 'informes:panel_informes' %}">Informes</a></li>
                     </ul>
                 </nav>
             </header>
