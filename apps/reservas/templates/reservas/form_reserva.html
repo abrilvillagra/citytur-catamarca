@@ -23,10 +23,14 @@
     <nav>
         <ul class="nav justify-content-center">
             <li class="nav-item"><a class="nav-link" href="{% url 'reservas:inicio' %}">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
+            {% if user.is_authenticated and es_admin %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
+            {% endif %}
             <li class="nav-item"><a class="nav-link active" href="{% url 'reservas:reservas_crear' %}">Reserva</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'reservas:listar_reservas' %}"> Reservas realizadas</a></li>
-            <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'panel_informes' %}active{% endif %}" href="{% url 'informes:panel_informes' %}">Informes</a></li>
+            {% if user.is_authenticated and es_admin %}
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'panel_informes' %}active{% endif %}" href="{% url 'informes:panel_informes' %}">Informes</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>
