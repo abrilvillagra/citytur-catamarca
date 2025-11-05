@@ -32,9 +32,17 @@ class RecorridoForm(forms.ModelForm):
             'imagen': forms.ClearableFileInput(attrs={'class':'form-select'}),
             'puntos_turisticos': forms.SelectMultiple(attrs={'class':'form-select', 'size':'5'})
         }
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, disable_estado=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['puntos_turisticos'].queryset = PuntoTuristico.objects.filter(estado=True)
+
+        # Si la instancia no existe (creación) nos aseguramos de tener initial True
+        if not getattr(self.instance, 'pk', None):
+            self.initial.setdefault('estado', True)
+
+        # Aplicar disabled si se solicita
+        if disable_estado:
+            self.fields['estado'].disabled = True
 
     def clean(self):
         cleaned_data=super().clean()
