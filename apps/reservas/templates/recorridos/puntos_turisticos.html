@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %} Puntos turisticos {% endblock %}
+{% block header_title%}Gestionar Puntos Turisticos{%endblock%}
 
 {% block content %}
 
@@ -8,7 +9,7 @@
     <form method="post" id="form_punto_turistico" class="p-4 border rounded bg-light">
         {% csrf_token %}
 
-        <h3 class="mb-4">Agregar Punto Turistico</h3>
+        <h3 class="mb-4">Agregar/Modificar Punto Turistico</h3>
 
         <div class="row mb-5">
 
