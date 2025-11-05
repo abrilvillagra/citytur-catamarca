@@ -101,16 +101,17 @@ def agregar_punto(request):
     puntos=PuntoTuristico.objects.all()
     nuevo_punto=None
     if request.method=='POST':
-        punto_form=PuntoTuristaForm(request.POST)
+        punto_form=PuntoTuristaForm(request.POST, disable_estado=True)
         if punto_form.is_valid():
             nuevo_punto = punto_form.save(commit=False)
+            nuevo_punto.estado=True
             nuevo_punto.save()
             messages.success(request, "Punto turistico guardado correctamente.")
             punto_form = PuntoTuristaForm()
         else:
             messages.error(request, "Corrige los errores del formulario.")
     else:
-        punto_form=PuntoTuristaForm()
+        punto_form=PuntoTuristaForm(disable_estado=True)
 
     return render(request, 'recorridos/puntos_turisticos.html', {
         'form':punto_form,

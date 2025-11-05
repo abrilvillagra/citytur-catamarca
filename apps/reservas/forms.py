@@ -78,6 +78,15 @@ class PuntoTuristaForm(forms.ModelForm):
             'ubicacion':forms.TextInput(attrs={'required':'required'}),
         }
 
+    def __init__(self, *args, disable_estado=False, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Si la instancia no existe (creación) nos aseguramos de tener initial True
+        if not getattr(self.instance, 'pk', None):
+            self.initial.setdefault('estado', True)
+
+        # Aplicar disabled si se solicita
+        if disable_estado:
+            self.fields['estado'].disabled = True
 
 class ReservaForm(forms.ModelForm):
     # Opciones de forma de pago, como en el modelo
