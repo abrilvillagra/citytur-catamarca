@@ -1,28 +1,39 @@
-{% extends 'base2.html' %}
-{% block title %} Iniciar Sesion{% endblock %}
+{% extends "base2.html" %}
+{% load static %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
 {% block content %}
 
+<div class="container mt-5" style="max-width: 450px;">
+    <h2 class="text-center mb-4">Iniciar sesión</h2>
 
-    {% if msj %}
-    <div style="color: red;">{{ msj }}</div>
-    {% endif %}
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
 
-    <div class="formulario">
-        <form action="{% url 'usuario:login' %}" method="post" class="p-4 border rounded bg-light">
-            {% csrf_token %}
-            <h1>Ingresar datos</h1>
-            <div class="username">
-                <input type="text" name="username" id="username" required>
-                <label for="username">Usuario:</label>
+        {% if msj %}
+            <div class="alert alert-danger text-center">
+                {{ msj }}
             </div>
-            <div class="username">
-                <input type="password" name="password" id="password" required>
-                <label for="password">Contraseña:</label>
-            </div>
+        {% endif %}
 
-            <div class="iniciar">
-                <input type="submit" value="Iniciar sesión" class="btn btn-iniciar">
-            </div>
-        </form>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Nombre de usuario</label>
+            <input type="text" name="username" class="form-control" required autofocus>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Contraseña</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Entrar</button>
+    </form>
+
+    <p class="mt-3 text-center">
+        ¿No tenés cuenta?
+        <a href="{% url 'usuario:register' %}">Registrate aquí</a>
+    </p>
+</div>
+
 {% endblock %}

@@ -59,6 +59,7 @@ class RecorridosActivosPDF(PDFTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['recorridos'] = Recorrido.objects.filter(estado=True)
+        context['fecha_actual'] = date.today()
         return context
 
 
@@ -71,22 +72,40 @@ class ReservasPorRecorridoPDF(PDFTemplateView):
         context = super().get_context_data(**kwargs)
         context['reservas'] = Reserva.objects.filter(recorrido_id=recorrido_id)
         context['recorrido'] = Recorrido.objects.filter(id=recorrido_id).first()
+        context['fecha_actual'] = date.today()
         return context
 
 
 class EstadisticasPasajerosPDF(PDFTemplateView):
     template_name = 'informes/estadisticas_pasajeros_pdf.html'
+
     def get_context_data(self, **kwargs):
         from django.db.models import Sum
+        from datetime import date
+
         context = super().get_context_data(**kwargs)
+
         fecha_desde = self.request.GET.get('desde')
         fecha_hasta = self.request.GET.get('hasta')
+
+
+        reservas = Reserva.objects.filter(
+            fecha_reserva__range=[fecha_desde, fecha_hasta]
+        )
+
+
         context['estadisticas'] = (
-            Reserva.objects.filter(fecha_reserva__range=[fecha_desde, fecha_hasta])
-            .values('recorrido__nombre')
+            reservas.values('recorrido__nombre')
             .annotate(total_pasajeros=Sum('cantidad_personas'))
             .order_by('-total_pasajeros')
         )
+
+
+        context['reservas_detalle'] = reservas
+
+
+        context['fecha_actual'] = date.today()
         context['fecha_desde'] = fecha_desde
         context['fecha_hasta'] = fecha_hasta
+
         return context

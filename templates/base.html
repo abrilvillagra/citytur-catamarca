@@ -5,46 +5,95 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="{% static 'img/logo.png' %}" type="image/png">
-        <title>{%block title%}Gestion de recorridos{% endblock %}</title>
+        <title>{% block title %}Gestión CityTur{% endblock %}</title>
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+              crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'css/gestionRecorridos.css' %}">
-        {%block extra_head%}{%endblock%}
+        {% block extra_head %}{% endblock %}
     </head>
 
-
     <body>
-        <!--contenedor de la cabezera-->
+        <!-- CABECERA -->
         <div class="mb-4">
-
             <header>
                 <img src="{% static 'img/banner2.png' %}" class="banner-img"/>
-                <h1 class="text-center mt-3">{% block header_title%}Gestionar Recorridos{%endblock%}</h1>
+                <h1 class="text-center mt-3">
+                    {% block header_title %}Gestionar Recorridos{% endblock %}
+                </h1>
+
                 <nav>
-                    <ul class="nav justify-content-center">
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'inicio' %}active{% endif %}" href="{% url 'reservas:inicio' %}">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agregar_recorrido' %}active{% endif %}" href="{%url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agregar_punto' %}active{% endif %}" href="{% url 'reservas:agregar_punto' %}">Puntos Turisticos</a></li>
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'reservas_crear' %}active{% endif %}" href="{% url 'reservas:reservas_crear' %}">Reserva</a></li>
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'panel_informes' %}active{% endif %}" href="{% url 'informes:panel_informes' %}">Informes</a></li>
+                    <ul class="nav justify-content-center align-items-center">
+
+                        <!-- INICIO (página pública) -->
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'inicio' %}active{% endif %}"
+                               href="{% url 'reservas:inicio' %}">
+                                Inicio
+                            </a>
+                        </li>
+
+                        <!-- GESTIÓN DE RECORRIDOS -->
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name in 'agregar_recorrido gestionar_recorridos' %}active{% endif %}"
+                               href="{% url 'reservas:agregar_recorrido' %}">
+                                Recorridos
+                            </a>
+                        </li>
+
+                        <!-- GESTIÓN DE PUNTOS TURÍSTICOS -->
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'agregar_punto' %}active{% endif %}"
+                               href="{% url 'reservas:agregar_punto' %}">
+                                Puntos Turísticos
+                            </a>
+                        </li>
+
+                        <!-- VER RESERVAS (lista, NO crear) -->
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'listar_reservas' %}active{% endif %}"
+                               href="{% url 'reservas:listar_reservas' %}">
+                                Reservas
+                            </a>
+                        </li>
+
+                        <!-- INFORMES -->
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.app_name == 'informes' %}active{% endif %}"
+                               href="{% url 'informes:panel_informes' %}">
+                                Informes
+                            </a>
+                        </li>
+
+                        <!-- USUARIO + LOGOUT -->
+                        {% if user.is_authenticated %}
+                            <li class="nav-item ms-3">
+                                <span class="fw-bold text-success">{{ user.username }}</span>
+                                <a class="btn btn-outline-danger btn-sm ms-2"
+                                   href="{% url 'usuario:logout' %}">
+                                    Cerrar sesión
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </header>
         </div>
 
-        <!--mensajes de error de django***************************-->
+        <!-- MENSAJES -->
         {% if messages %}
             <div class="container mt-3">
                 {% for message in messages %}
-                    <div
-                        class="alert
-                               {% if message.tags %}
-                                   alert-{{ message.tags }}
-                               {% else %}
-                                   alert-info
-                               {% endif %}
-                               alert-dismissible fade show"
-                        role="alert">
+                    <div class="alert
+                                {% if message.tags %}
+                                    alert-{{ message.tags }}
+                                {% else %}
+                                    alert-info
+                                {% endif %}
+                                alert-dismissible fade show"
+                         role="alert">
                         {{ message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -52,19 +101,19 @@
             </div>
         {% endif %}
 
-
+        <!-- CONTENIDO ESPECÍFICO -->
         <div>
             {% block content %}
-            <!-- Aquí se insertará el contenido de cada página -->
             {% endblock %}
         </div>
 
-
-        <footer class="text-center mt-4 p-3 ">
+        <footer class="text-center mt-4 p-3">
             <p>© 2025 CityTur Catamarca</p>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+                crossorigin="anonymous"></script>
         <script src="{% static 'js/validacion2.js' %}"></script>
     </body>
 </html>
