@@ -1,8 +1,8 @@
 
 from django import forms
 
-from apps.reservas.models import Recorrido, PuntoTuristico,Reserva
-
+from apps.reservas.models import Recorrido, PuntoTuristico,Reserva, UnidadTransporte
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
@@ -30,11 +30,19 @@ class RecorridoForm(forms.ModelForm):
             'hora_llegada': forms.TimeInput(format='%H:%M',attrs={'placeholder': 'Ej: 10:30', 'type': 'time', 'required':'required'}),
             'descripcion': forms.Textarea(attrs={'rows':'3', 'cols':'35'}),
             'imagen': forms.ClearableFileInput(attrs={'class':'form-select'}),
-            'puntos_turisticos': forms.SelectMultiple(attrs={'class':'form-select', 'size':'5'})
+            'puntos_turisticos': forms.SelectMultiple(attrs={'class':'form-select', 'size':'5'}),
+            'unidad': forms.Select(attrs={'class':'form-select', 'aria-label':'Default select example'})
         }
     def __init__(self, *args, disable_estado=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['puntos_turisticos'].queryset = PuntoTuristico.objects.filter(estado=True)
+
+        if self.instance.pk and self.instance.unidad:
+            self.fields['unidad'].queryset = UnidadTransporte.objects.filter(
+                Q(estado=True) | Q(pk=self.instance.unidad.pk)
+            )
+        else:
+            self.fields['unidad'].queryset = UnidadTransporte.objects.filter(estado=True)
 
         # Si la instancia no existe (creación) nos aseguramos de tener initial True
         if not getattr(self.instance, 'pk', None):

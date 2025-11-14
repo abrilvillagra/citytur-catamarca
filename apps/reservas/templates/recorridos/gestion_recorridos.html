@@ -80,8 +80,13 @@
             <div class="col-md-6">
                 {{form.puntos_turisticos.label_tag}}
                 {{form.puntos_turisticos}}
+                <a href="{% url 'reservas:agregar_punto' %}" class="link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Agregar nuevo Punto turistico</a>
             </div>
-            <a href="{% url 'reservas:agregar_punto' %}" class="link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Agregar nuevo Punto turistico</a>
+
+            <div class="col-md-6">
+                {{form.unidad.label_tag}}
+                {{form.unidad}}
+            </div>
 
         </div>
 
