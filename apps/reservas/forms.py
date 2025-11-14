@@ -21,7 +21,7 @@ class RecorridoForm(forms.ModelForm):
 
     class Meta:
         model=Recorrido
-        fields=['nombre', 'precio', 'hora_salida', 'hora_llegada', 'estado', 'descripcion', 'imagen', 'puntos_turisticos']
+        fields=['nombre', 'precio', 'hora_salida', 'hora_llegada', 'estado', 'descripcion', 'imagen', 'puntos_turisticos', 'unidad']
 
         widgets={
             'nombre': forms.TextInput(attrs={'required':'required'}),

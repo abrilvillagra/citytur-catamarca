@@ -1,8 +1,9 @@
 from decimal import Decimal
 
 from django.core.validators import MinValueValidator
-from django.db import models
+from django.db import models,transaction
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 User = get_user_model()
 # Create your models here.
 
@@ -29,6 +30,21 @@ class PuntoTuristico(models.Model):
         return f'{self.nombre}, {self.estado}'
 
 
+class UnidadTransporte(models.Model):
+    patente=models.CharField(max_length=7, unique=True)
+    marca=models.CharField(max_length=50)
+    modelo=models.CharField(max_length=50)
+    estado=models.BooleanField(default=True)
+    capacidad=models.PositiveIntegerField(default=20)
+
+    class Meta:
+        ordering=['patente']
+
+    def __str__(self):
+        return  f'{self.patente}, {self.marca}, {self.estado}'
+
+
+
 class Recorrido(models.Model):
     nombre=models.CharField(max_length=50, unique=True)
     descripcion=models.TextField(blank=True)
@@ -44,32 +60,60 @@ class Recorrido(models.Model):
     )
     puntos_turisticos=models.ManyToManyField(PuntoTuristico,related_name="recorridos",blank=True)
 
+    unidad = models.OneToOneField(
+        UnidadTransporte,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="recorridos"
+    )
 
     def __str__(self):
         return f'{self.nombre}, {self.estado}, {self.precio}'
 
+    @property
+    def capacidad(self):
+        """Capacidad del recorrido = capacidad de la unidad asignada (o 0 si no hay unidad)."""
+        return self.unidad.capacidad if self.unidad else 0
 
+    def save(self, *args, **kwargs):
 
-class UnidadTransporte(models.Model):
-    patente=models.CharField(max_length=7, unique=True)
-    marca=models.CharField(max_length=50)
-    modelo=models.CharField(max_length=50)
-    estado=models.BooleanField(default=True)
+        # unidad anterior (si existe)
+        unidad_anterior = None
+        if self.pk:
+            try:
+                unidad_anterior = Recorrido.objects.get(pk=self.pk).unidad
+            except Recorrido.DoesNotExist:
+                unidad_anterior = None
 
-    recorrido=models.ForeignKey(
-        Recorrido,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='unidades'
-    )
+        nueva_unidad = self.unidad
 
-    class Meta:
-        ordering=['patente']
+        if nueva_unidad and not nueva_unidad.estado:
+            # la unidad está ocupada/inactiva: impedir asignación
+            raise ValidationError("No se puede asignar una unidad inactiva u ocupada.")
 
-    def __str__(self):
-        return  f'{self.patente}, {self.marca}, {self.estado}'
+        with transaction.atomic():
+            super().save(*args, **kwargs)  # guardamos recorrido (necesario para algunos casos)
 
+            # si cambiamos de unidad: reactivar la anterior y desactivar la nueva
+            if unidad_anterior and unidad_anterior != nueva_unidad:
+                unidad_anterior.estado = True
+                unidad_anterior.save(update_fields=['estado'])
+
+            if nueva_unidad and unidad_anterior != nueva_unidad:
+                nueva_unidad.estado = False
+                nueva_unidad.save(update_fields=['estado'])
+
+    def delete(self, *args, **kwargs):
+        """
+        Reactiva la unidad asociada al eliminar el recorrido.
+        (Nota: para borrados en masa también registramos signal post_delete más abajo)
+        """
+        unidad = self.unidad
+        super().delete(*args, **kwargs)
+        if unidad:
+            unidad.estado = True
+            unidad.save(update_fields=['estado'])
 
 class Reserva(models.Model):
     FORMA_PAGO = [
