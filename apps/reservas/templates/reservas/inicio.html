@@ -24,8 +24,14 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'reservas:agregar_recorrido' %}">Recorridos</a></li>
                 {% endif %}
 
+                {% if user.is_authenticated and not es_admin %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'reservas:reservas_crear' %}">Reservar</a></li>
+                {% endif %}
 
-                <li class="nav-item"><a class="nav-link" href="{% url 'reservas:reservas_crear' %}">Reservar</a></li>
+                {% if user.is_authenticated and es_admin %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'reservas:listar_reservas' %}">Reservas</a></li>
+                {% endif %}
+
 
                 {% if user.is_authenticated and es_admin %}
                     <li class="nav-item">
@@ -46,6 +52,7 @@
                 {% else %}
                     <li class="nav-item ms-3">
                         <a class="btn btn-outline-success btn-sm" href="{% url 'usuario:login' %}">Iniciar sesión</a>
+                        <a class="btn btn-primary btn-sm" href="{% url 'usuario:register' %}">Registrarme</a>
                     </li>
                 {% endif %}
     </ul>
