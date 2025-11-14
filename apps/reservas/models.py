@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.core.validators import MinValueValidator
 from django.db import models,transaction
+from django.db.models import Sum
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 User = get_user_model()
@@ -146,5 +147,35 @@ class Reserva(models.Model):
     def __str__(self):
         return f"Reserva {self.nombre_completo} – {self.recorrido} – {self.fecha_reserva:%d/%m/%Y} – {self.cantidad_personas} pax"
 
+    def clean(self):
+        super().clean()
+
+        if not self.recorrido or not self.fecha_reserva:
+            return
+
+        # Capacidad del recorrido
+        capacidad = self.recorrido.capacidad
+
+        # Total ya reservado (solo reservas activas)
+        qs = Reserva.objects.filter(
+            recorrido=self.recorrido,
+            fecha_reserva=self.fecha_reserva,
+            activa=True
+        )
+
+        # Si estoy modificando una reserva, no me cuento a mí mismo
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        reservado = qs.aggregate(total=Sum('cantidad_personas'))['total'] or 0
+
+        # Cantidad que quiere reservar el usuario
+        cantidad = self.cantidad_personas
+
+        if reservado + cantidad > capacidad:
+            disponibles = capacidad - reservado
+            raise ValidationError({
+                'cantidad_personas': f"No hay suficientes cupos. Quedan {disponibles} disponibles."
+            })
 
 

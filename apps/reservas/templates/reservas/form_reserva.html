@@ -63,6 +63,9 @@
         <div class="mb-3">
             {{ form.cantidad_personas.label_tag }}
             {{ form.cantidad_personas }}
+            {% for error in form.cantidad_personas.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
         </div>
 
         <div class="mb-3">
