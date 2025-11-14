@@ -1,5 +1,5 @@
 from decimal import Decimal
-
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.db import models,transaction
 from django.db.models import Sum
@@ -146,6 +146,27 @@ class Reserva(models.Model):
 
     def __str__(self):
         return f"Reserva {self.nombre_completo} – {self.recorrido} – {self.fecha_reserva:%d/%m/%Y} – {self.cantidad_personas} pax"
+
+    def puede_cancelar(self, hoy=None):
+
+        if hoy is None:
+            hoy = timezone.localdate()
+
+        # Si ya está inactiva, no tiene sentido "cancelar" otra vez
+        if not self.activa:
+            return False, "La reserva ya está cancelada."
+
+        # Diferencia en días entre fecha_reserva y hoy
+        dias = (self.fecha_reserva - hoy).days
+
+        if dias <= 1:
+            # Mensaje claro para el usuario
+            return False, (
+                "No es posible cancelar la reserva con 1 día de anticipación (o menos). "
+                "Por ejemplo, una reserva para el 12/12/2025 no puede ser cancelada el 11/12/2025."
+            )
+
+        return True, None
 
     def clean(self):
         super().clean()

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Recorrido, PuntoTuristico, Reserva
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import permission_required
 #import logging
 
@@ -224,7 +225,20 @@ def editar_reserva(request, id):
 @login_required
 def cancelar_reserva(request, id):
     reserva = get_object_or_404(Reserva, id=id)
+
+    # Permisos: solo propietario o admin puede cancelar
+    es_admin = request.user.groups.filter(name='Administrador').exists() or request.user.is_superuser
+    if not es_admin and reserva.usuario != request.user:
+        return HttpResponseForbidden("No tenés permiso para cancelar esta reserva.")
+
+    # Chequeo de regla (usa el método del modelo)
+    puede, motivo = reserva.puede_cancelar()
+    if not puede:
+        messages.error(request, motivo)
+        return redirect('reservas:listar_reservas')
+
+    # Si llegó hasta aquí, se puede cancelar: marcamos inactiva y guardamos
     reserva.activa = False
-    reserva.save()
-    messages.info(request, "La reserva fue cancelada correctamente.")
+    reserva.save()  # tu save llama full_clean() según lo tenías; es correcto
+    messages.info(request, "La reserva fue cancelada correctamente y los cupos se liberaron.")
     return redirect('reservas:listar_reservas')
