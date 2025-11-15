@@ -49,9 +49,9 @@ form {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #ffffff;
+    /*background-color: #ffffff;
     border: 2px solid #ff9800;
-    border-radius: 10px;
+    border-radius: 10px;*/
     box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
 }
 label {
@@ -149,6 +149,31 @@ input[name="Nombre"] {
 .btn-detalle:hover{
     background-color: #bf360c;
     color: white;
+}
+
+.btn-reservar{
+    color: #079C77;
+    border-color: #079C77;
+    width: 200px;     /* ancho fijo */
+    padding: 10px 20px; /* espacio interno */
+    font-weight: 600;
+}
+
+.btn-reservar:hover{
+    color: white;
+    border-color: #079C77;
+    background-color: #079C77;
+}
+
+.btn-editar{
+    color: #e65100;
+    border-color: #e65100;
+}
+
+.btn-editar:hover{
+    color: white;
+    border-color: #e65100;
+    background-color: #e65100;
 }
 
 
