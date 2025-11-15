@@ -79,7 +79,7 @@ class Recorrido(models.Model):
 
     def save(self, *args, **kwargs):
 
-        # unidad anterior (si existe)
+        # obtener la unidad anterior (si existe)
         unidad_anterior = None
         if self.pk:
             try:
@@ -89,18 +89,29 @@ class Recorrido(models.Model):
 
         nueva_unidad = self.unidad
 
-        if nueva_unidad and not nueva_unidad.estado:
-            # la unidad está ocupada/inactiva: impedir asignación
-            raise ValidationError("No se puede asignar una unidad inactiva u ocupada.")
+        # Si la unidad no cambió, simplemente guardamos y salimos
+        if unidad_anterior and unidad_anterior == nueva_unidad:
+            # No necesitamos cambiar estados: la unidad ya estaba asociada a este recorrido
+            super().save(*args, **kwargs)
+            return
 
+        # Si la unidad cambió o es nueva, validamos que la nueva unidad esté disponible
+        if nueva_unidad:
+            # si la nueva unidad está inactiva y no es la unidad anterior -> no se puede asignar
+            if not nueva_unidad.estado and unidad_anterior != nueva_unidad:
+                raise ValidationError("La unidad seleccionada no está disponible (ya asignada).")
+
+        # Hacemos el cambio en una transacción
         with transaction.atomic():
-            super().save(*args, **kwargs)  # guardamos recorrido (necesario para algunos casos)
+            # Guardamos el recorrido primero (necesario si es creación)
+            super().save(*args, **kwargs)
 
-            # si cambiamos de unidad: reactivar la anterior y desactivar la nueva
+            # Si había una unidad anterior distinta: reactivarla
             if unidad_anterior and unidad_anterior != nueva_unidad:
                 unidad_anterior.estado = True
                 unidad_anterior.save(update_fields=['estado'])
 
+            # Si hay una nueva unidad distinta de la anterior: inactivarla
             if nueva_unidad and unidad_anterior != nueva_unidad:
                 nueva_unidad.estado = False
                 nueva_unidad.save(update_fields=['estado'])

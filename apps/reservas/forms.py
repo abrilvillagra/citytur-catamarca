@@ -39,8 +39,12 @@ class RecorridoForm(forms.ModelForm):
 
         self.fields['puntos_turisticos'].queryset = PuntoTuristico.objects.filter(estado=True)
 
-
-        self.fields['unidad'].queryset = UnidadTransporte.objects.filter(estado=True)
+        if self.instance.pk and self.instance.unidad:
+            self.fields['unidad'].queryset = UnidadTransporte.objects.filter(
+                Q(estado=True) | Q(pk=self.instance.unidad.pk)
+            )
+        else:
+            self.fields['unidad'].queryset = UnidadTransporte.objects.filter(estado=True)
 
         # Si la instancia no existe (creación) nos aseguramos de tener initial True
         if not getattr(self.instance, 'pk', None):
